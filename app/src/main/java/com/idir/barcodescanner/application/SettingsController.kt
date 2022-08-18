@@ -155,7 +155,7 @@ class SettingsController : ViewModel() {
     }
 
     fun showOnPlayStore(context: Context) {
-        val packageName =  "com.idir.codebarscanner"
+        val packageName =  "com.idir.barcodescanner"
         try {
             ContextCompat.startActivity(
                 context,
