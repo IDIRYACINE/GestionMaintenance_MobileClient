@@ -1,6 +1,5 @@
 package com.idir.barcodescanner.infrastructure.barcode.manager
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.idir.barcodescanner.data.BarcodeGroup
 import com.idir.barcodescanner.infrastructure.barcode.IBarcodeBroadcaster

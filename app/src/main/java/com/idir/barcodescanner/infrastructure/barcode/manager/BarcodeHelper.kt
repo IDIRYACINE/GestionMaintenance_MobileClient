@@ -29,7 +29,7 @@ class BarcodeHelper(
         iterator: MutableIterator<MutableMap.MutableEntry<String, Barcode>>,
 
     ) {
-        fun updateRegisterKeyCount(key:String , ){
+        fun updateRegisterKeyCount(key: String){
            //TODO
         }
 

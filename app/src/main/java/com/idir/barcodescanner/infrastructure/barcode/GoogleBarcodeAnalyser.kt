@@ -38,7 +38,7 @@ class GoogleBarcodeAnalyser : ImageAnalysis.Analyzer, IBarcodeAnalyser {
     }
 
     class TimeStampHolder{
-        var lastAnalyzedTimeStamp:Long = 0L
+        private var lastAnalyzedTimeStamp:Long = 0L
         var currentTimestamp :Long = 0L
 
         private val minTimeBetweenScansInMillis = 4000L

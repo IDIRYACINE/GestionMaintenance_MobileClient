@@ -22,7 +22,6 @@ import com.idir.barcodescanner.R
 import com.idir.barcodescanner.ui.screens.*
 
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun NavigationGraph(navController: NavHostController,handler: Handler) {
     NavHost(navController, startDestination = BottomNavItem.Home.screen_route) {
@@ -46,7 +45,7 @@ fun BottomNavigationBar (navController : NavController){
         BottomNavItem.Scan,
         BottomNavItem.Settings
     )
-    BottomNavigation() {
+    BottomNavigation {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 

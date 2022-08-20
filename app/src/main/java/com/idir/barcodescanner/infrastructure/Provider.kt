@@ -19,8 +19,7 @@ object Provider {
         private set
 
     val storageManager : StorageManager = StorageManager()
-    lateinit var httpManager : HttpManager
-        private set
+
     lateinit var barcodesManager :IBarcodeManager
         private set
     lateinit var cameraAnalyser: ICameraAnalyser
@@ -33,7 +32,7 @@ object Provider {
     lateinit var cameraController : CameraController
         private set
 
-    lateinit var toaster : IBarcodeSubscriber
+    private lateinit var toaster : IBarcodeSubscriber
         private set
     lateinit var resourceLoader:ResourcesLoader
         private set
@@ -55,7 +54,6 @@ object Provider {
 
         settingsController = SettingsController()
         settingsController.load(context)
-        httpManager = HttpManager(settingsController.settings)
 
         homeController = HomeController(barcodesManager,handler)
 

@@ -18,7 +18,7 @@ fun LicenseFragment(
     backgroundColor : Color = Color.Gray,
     titleColor : Color = Color.LightGray,
 ){
-    Column() {
+    Column {
         Text(text = title , color = titleColor)
         Spacer(modifier = Modifier.height(10.dp))
         Box(modifier = Modifier.background(color = backgroundColor)){

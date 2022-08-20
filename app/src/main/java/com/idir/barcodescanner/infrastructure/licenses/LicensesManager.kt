@@ -11,18 +11,8 @@ class LicensesManager(private val resourcesLoader: ResourcesLoader) {
         val licensesContents : List<Int> = listOf()
     }
 
-    val _licenses : MutableList<License> = mutableListOf()
+    private val _licenses : MutableList<License> = mutableListOf()
     val licenses : List<License> = _licenses
-
-
-    init {
-        /*for (i:Int in 0 ..licensesNames.size){
-            registerLicense(
-                licensesNames[i],
-                licensesContents[i]
-            )
-        }*/
-    }
 
 
     private fun registerLicense(nameId:Int ,contentId:Int){

@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection", "SpellCheckingInspection")
+
 package com.idir.barcodescanner.ui.components
 
 import android.app.Activity

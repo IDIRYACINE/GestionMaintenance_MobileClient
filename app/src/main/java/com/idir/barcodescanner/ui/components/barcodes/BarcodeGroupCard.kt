@@ -69,7 +69,7 @@ fun BarcodeGroupCard(group : BarcodeGroup, controller:HomeController){
 
 @Preview
 @Composable
-fun groupPreview(){
+fun GroupPreview(){
     val controller = Mocks.mockHomeController()
     val group = Mocks.mockBarcodeGroup()
 

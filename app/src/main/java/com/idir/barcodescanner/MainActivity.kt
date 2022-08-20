@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.idir.barcodescanner.infrastructure.HttpManager
 import com.idir.barcodescanner.infrastructure.Provider
 import com.idir.barcodescanner.infrastructure.services.ServiceBroadcaster
 import com.idir.barcodescanner.ui.components.BottomNavigationBar
@@ -82,7 +81,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun App(handler: Handler) {
     val navController = rememberNavController()

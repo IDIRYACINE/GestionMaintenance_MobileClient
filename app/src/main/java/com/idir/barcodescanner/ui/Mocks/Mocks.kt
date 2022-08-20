@@ -9,31 +9,27 @@ import com.idir.barcodescanner.infrastructure.barcode.manager.BarcodeManager
 
 class Mocks {
     companion object{
-        fun mockBarcodeGroup() : BarcodeGroup{
+        fun mockBarcodeGroup(): BarcodeGroup {
 
-            val group = BarcodeGroup(
+
+            return BarcodeGroup(
                 id = 0,
                 name = mutableStateOf("Mock Group"),
                 barcodes = mutableMapOf()
             )
-
-
-            return group
         }
 
-        fun mockHomeController() : HomeController{
-            val controller = HomeController(
-                barcodesManager =  mockBarcodeManager(),
+        fun mockHomeController(): HomeController {
+            return HomeController(
+                barcodesManager = mockBarcodeManager(),
                 handler = Handler()
             )
-            return controller
         }
 
-        fun mockBarcodeManager() : IBarcodeManager{
-            val manager = BarcodeManager(
-            )
+        private fun mockBarcodeManager(): IBarcodeManager {
 
-            return manager;
+            return BarcodeManager(
+            )
         }
 
 

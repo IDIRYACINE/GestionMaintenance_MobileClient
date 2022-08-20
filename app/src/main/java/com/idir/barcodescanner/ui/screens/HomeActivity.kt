@@ -20,7 +20,6 @@ import com.idir.barcodescanner.ui.components.barcodes.ManageCardPopup
 import com.idir.barcodescanner.ui.theme.Green500
 
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomeScreen(controller : HomeController = Provider.homeController ){
     val openDialog = remember{ controller.popupCardState.isOpen}
