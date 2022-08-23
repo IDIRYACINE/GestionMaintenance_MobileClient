@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.idir.barcodescanner.App
 import com.idir.barcodescanner.R
 import com.idir.barcodescanner.application.SettingsController
-import com.idir.barcodescanner.data.Settings
+import com.idir.barcodescanner.data.dataModels.Settings
 import com.idir.barcodescanner.data.SettingsIcons
 import com.idir.barcodescanner.infrastructure.Provider
 import com.idir.barcodescanner.ui.components.SettingRow
@@ -63,7 +63,7 @@ fun SelfSwitch(state: MutableState<Boolean>,onClick : ()->Unit = {}){
 }
 
 @Composable
-fun GeneralSection(settings: Settings,controller: SettingsController){
+fun GeneralSection(settings: Settings, controller: SettingsController){
     SettingSectionHeader(title = R.string.settings_section_general,padding=SettingsScreenConstants.sectionTitleTopPadding)
 
     SettingRow(
@@ -92,7 +92,7 @@ fun GeneralSection(settings: Settings,controller: SettingsController){
 }
 
 @Composable
-fun ScanControlsSection(settings: Settings,controller:SettingsController){
+fun ScanControlsSection(settings: Settings, controller:SettingsController){
     Divider(color= Color.LightGray, thickness =SettingsScreenConstants.dividerThickness)
     SettingSectionHeader(title = R.string.settings_section_scanControls,padding=SettingsScreenConstants.sectionTitleTopPadding)
 

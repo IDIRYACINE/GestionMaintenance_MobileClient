@@ -6,17 +6,14 @@ import com.idir.barcodescanner.infrastructure.barcode.IBarcodeHelper
 
 
 class BarcodeHelper(
-    private val groupsRegister:MutableMap<Int,MutableMap<String,Int>>,
-    private val activeGroups:MutableList<BarcodeGroup>) : IBarcodeHelper() {
-
-    private lateinit var register :MutableMap<Int,Int>
-
+    private val groups:MutableMap<Int,BarcodeGroup>
+    ) : IBarcodeHelper() {
 
     override fun add(rawBarcode: Int) {
         //TODO
     }
 
-    override fun addAll(rawBarcodes: List<Int>) {
+    override fun addAll(rawBarcodes: List<String>) {
         rawBarcodes.forEach {
             //TODO
         }
@@ -32,13 +29,12 @@ class BarcodeHelper(
         fun updateRegisterKeyCount(key: String){
            //TODO
         }
-
         iterator.remove()
     }
 
 
-    private fun checkBarcodeExistence(rawBarcode:String,group: BarcodeGroup){
-       //TODO
+    private fun checkGroupExistence(groupId:Int,group: BarcodeGroup){
+
 
     }
 

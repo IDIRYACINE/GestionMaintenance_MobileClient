@@ -8,7 +8,6 @@ import android.os.Bundle
 class ServiceBroadcaster : BroadcastReceiver() {
     companion object{
         const val SETTINGS_KEY = "Settings"
-        const val BARCODE_KEY = "Barcodes"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -16,7 +15,6 @@ class ServiceBroadcaster : BroadcastReceiver() {
         val bundle = Bundle()
 
         passSerializable(intent,bundle,SETTINGS_KEY)
-        passSerializable(intent,bundle,BARCODE_KEY)
         dataSaver.putExtras(bundle)
 
         context.startService(dataSaver)

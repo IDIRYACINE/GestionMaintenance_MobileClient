@@ -2,13 +2,13 @@
 package com.idir.barcodescanner.infrastructure.database
 
 import android.database.Cursor
-import com.idir.barcodescanner.data.SessionRecord
+import com.idir.barcodescanner.data.dataModels.SessionRecord
 
 
 interface IDatabase {
     fun connect()
     fun disconnect()
-    fun registerSessionRecord(record:SessionRecord)
+    fun registerSessionRecord(record: SessionRecord)
     fun fetchSessionRecords() : Cursor
     fun fetchInventoryProduct(barcode:Int) : Cursor
 }

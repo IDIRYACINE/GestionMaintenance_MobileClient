@@ -3,7 +3,8 @@ package com.idir.barcodescanner.infrastructure.server
 import android.os.Handler
 import android.os.Message
 import com.google.gson.Gson
-import com.idir.barcodescanner.data.SessionRecord
+import com.idir.barcodescanner.data.dataModels.SessionRecordCollectionJson
+import com.idir.barcodescanner.data.dataModels.SessionRecordJson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -42,7 +43,7 @@ class Server(private val handler: Handler) : IServer{
         return loginResponse.isAuthorised
     }
 
-    override fun sendScannedRecord(sessionRecord: SessionRecord) {
+    override fun sendScannedRecord(sessionRecord: SessionRecordJson) {
         try {
             val url = HttpUrl.Builder()
                 .host(host)
@@ -53,13 +54,15 @@ class Server(private val handler: Handler) : IServer{
                 .url(url)
 
            postData(request,gson.toJson(sessionRecord))
+           onSuccess(handler)
+
         }
         catch (exceptions:Exception){
             onFail(handler)
         }
     }
 
-    override fun sendRecordCollection(sessionRecords: Collection<SessionRecord>) {
+    override fun sendRecordCollection(sessionRecords: SessionRecordCollectionJson) {
         try {
             val url = HttpUrl.Builder()
                 .host(host)
@@ -71,6 +74,7 @@ class Server(private val handler: Handler) : IServer{
 
             postData(request,gson.toJson(sessionRecords))
 
+            onSuccess(handler)
         }
         catch (exceptions:Exception){
             onFail(handler)

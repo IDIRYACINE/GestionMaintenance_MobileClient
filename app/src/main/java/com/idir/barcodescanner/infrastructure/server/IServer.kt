@@ -2,13 +2,14 @@
 
 package com.idir.barcodescanner.infrastructure.server
 
-import com.idir.barcodescanner.data.SessionRecord
+import com.idir.barcodescanner.data.dataModels.SessionRecordCollectionJson
+import com.idir.barcodescanner.data.dataModels.SessionRecordJson
 
 interface IServer {
 
     fun connect(identifier:String,password:String) : Boolean
-    fun sendScannedRecord(sessionRecord:SessionRecord)
-    fun sendRecordCollection(sessionRecords :Collection<SessionRecord>)
+    fun sendScannedRecord(sessionRecord : SessionRecordJson)
+    fun sendRecordCollection(sessionRecords : SessionRecordCollectionJson)
 }
 
 interface IApi{val api:String}

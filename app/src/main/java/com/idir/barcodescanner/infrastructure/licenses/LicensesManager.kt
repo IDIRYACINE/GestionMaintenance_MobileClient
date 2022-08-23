@@ -1,7 +1,7 @@
 package com.idir.barcodescanner.infrastructure.licenses
 
 import com.idir.barcodescanner.R
-import com.idir.barcodescanner.data.License
+import com.idir.barcodescanner.data.dataModels.License
 import com.idir.barcodescanner.infrastructure.ResourcesLoader
 
 class LicensesManager(private val resourcesLoader: ResourcesLoader) {

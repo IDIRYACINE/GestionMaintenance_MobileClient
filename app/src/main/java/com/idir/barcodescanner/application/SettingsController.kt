@@ -8,7 +8,7 @@ import androidx.compose.runtime.MutableState
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import com.idir.barcodescanner.data.CardPopupState
-import com.idir.barcodescanner.data.Settings
+import com.idir.barcodescanner.data.dataModels.Settings
 import com.idir.barcodescanner.infrastructure.Provider
 import com.idir.barcodescanner.infrastructure.ResourcesLoader
 import com.idir.barcodescanner.infrastructure.barcode.*

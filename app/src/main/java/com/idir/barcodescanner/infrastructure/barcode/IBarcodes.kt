@@ -48,13 +48,9 @@ interface IBarcodeSubscriber{
 }
 
 interface IBarcodeManager{
-    fun addGroup(groupName :String)
-    fun editGroup(newName:String)
-    fun removeGroup(groupEntry:BarcodeGroup)
     fun setActiveGroup(groupEntry: BarcodeGroup)
     fun getActiveGroup() : BarcodeGroup
     fun getGroups() : List<BarcodeGroup>
-    fun encodeToJson() : String
     fun encodeActiveToJson() : String
     fun clearAll()
     fun clearActiveGroups()
@@ -62,9 +58,6 @@ interface IBarcodeManager{
 }
 
 abstract class IBarcodeGroupHelper{
-    abstract fun add(groupName: String)
-
-    abstract fun remove(group: BarcodeGroup)
 
     fun timeStamp(): String {
         return "${Calendar.DAY_OF_MONTH}/${Calendar.MONTH}/${Calendar.YEAR} ${Calendar.HOUR_OF_DAY}:${Calendar.MINUTE}:${Calendar.SECOND} "
@@ -78,7 +71,7 @@ abstract class IBarcodeGroupHelper{
 
 abstract class IBarcodeHelper{
     abstract fun add(rawBarcode: Int)
-    abstract fun addAll(rawBarcodes: List<Int>)
+    abstract fun addAll(rawBarcodes: List<String>)
 
     abstract fun remove(
         barcode: Barcode,group: BarcodeGroup,iterator: MutableIterator<MutableMap.MutableEntry<String, Barcode>>)

@@ -33,7 +33,6 @@ object Provider {
         private set
 
     private lateinit var toaster : IBarcodeSubscriber
-        private set
     lateinit var resourceLoader:ResourcesLoader
         private set
     val barcodeBroadcaster : IBarcodeBroadcaster = BarcodeBroadcaster()
@@ -41,7 +40,6 @@ object Provider {
     fun initApp(context: Context,handler : Handler){
 
         val tempManager = BarcodeManager()
-        tempManager.load(context, storageManager)
 
         barcodesManager = tempManager
 

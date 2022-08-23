@@ -13,10 +13,8 @@ class DataSaverService : Service() {
         val extras = intent.extras!!
 
         val settings =  extras.getString("Settings")!!
-        val barcodes =  extras.getString("Barcodes")!!
 
         storageManager.saveSettings(context, settings)
-        storageManager.saveBarcodes(context,barcodes)
 
         stopSelf()
         return START_NOT_STICKY

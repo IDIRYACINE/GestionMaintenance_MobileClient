@@ -3,7 +3,7 @@ package com.idir.barcodescanner.infrastructure
 import android.content.Context
 import com.idir.barcodescanner.R
 import com.idir.barcodescanner.data.BarcodeGroup
-import com.idir.barcodescanner.data.Settings
+import com.idir.barcodescanner.data.dataModels.Settings
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
@@ -43,7 +43,7 @@ class StorageManager {
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    fun loadSettings(context : Context) : Settings{
+    fun loadSettings(context : Context) : Settings {
         val directory = context.filesDir.absolutePath +'/'+ context.getString(R.string.file_settings)
         return try {
             val inputStream =  FileInputStream(directory)

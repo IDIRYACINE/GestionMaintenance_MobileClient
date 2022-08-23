@@ -3,7 +3,7 @@ package com.idir.barcodescanner.infrastructure.database
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.idir.barcodescanner.data.SessionRecord
+import com.idir.barcodescanner.data.dataModels.SessionRecord
 import java.util.*
 
 class OfflineDatabase(databaseName:String,context:Context) : IDatabase{
