@@ -1,32 +1,29 @@
 package com.idir.barcodescanner.infrastructure.barcode.manager
 
-import android.content.Context
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import com.idir.barcodescanner.data.BarcodeGroup
 import com.idir.barcodescanner.infrastructure.StorageManager
 import com.idir.barcodescanner.infrastructure.barcode.IBarcodeGroupHelper
-import com.idir.barcodescanner.infrastructure.barcode.IBarcodeHelper
 import com.idir.barcodescanner.infrastructure.barcode.IBarcodeManager
+import com.idir.barcodescanner.infrastructure.database.DatabaseHelper
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
 
 
-class BarcodeManager : IBarcodeManager {
+class BarcodeManager(dao:DatabaseHelper) : IBarcodeManager {
 
     /* Data Structures */
     private lateinit var barcodes : MutableMap<Int,BarcodeGroup>
-    private lateinit var groups : SnapshotStateList<BarcodeGroup>
+    private lateinit var groups : SnapshotStateMap<Int,BarcodeGroup>
     private var editableGroup : BarcodeGroup? = null
 
     /* Actions Mode */
     private val groupHelper : IBarcodeGroupHelper
-    private val barcodeHelper: IBarcodeHelper
     private val activeGroups = mutableListOf<BarcodeGroup>()
 
     init{
-        groupHelper = GroupHelper()
-        barcodeHelper = BarcodeHelper()
+
+        groupHelper = GroupHelper(groups,dao)
     }
 
     override fun encodeActiveToJson() : String{
@@ -38,7 +35,7 @@ class BarcodeManager : IBarcodeManager {
 
     override fun clearAll() {
         groups.forEach {
-            clearGroup(it)
+            clearGroup(it.value)
         }
     }
 
@@ -62,7 +59,7 @@ class BarcodeManager : IBarcodeManager {
     }
 
     override fun getGroups(): List<BarcodeGroup> {
-        return groups
+        return groups.values.toList()
     }
 
 }

@@ -10,6 +10,8 @@ import com.idir.barcodescanner.application.HomeController
 import com.idir.barcodescanner.application.SettingsController
 import com.idir.barcodescanner.infrastructure.barcode.*
 import com.idir.barcodescanner.infrastructure.barcode.manager.BarcodeManager
+import com.idir.barcodescanner.infrastructure.database.DatabaseHelper
+import com.idir.barcodescanner.infrastructure.database.RemoteDatabase
 import com.idir.barcodescanner.infrastructure.licenses.LicensesManager
 
 
@@ -35,11 +37,11 @@ object Provider {
     private lateinit var toaster : IBarcodeSubscriber
     lateinit var resourceLoader:ResourcesLoader
         private set
-    val barcodeBroadcaster : IBarcodeBroadcaster = BarcodeBroadcaster()
+    lateinit var barcodeBroadcaster : IBarcodeBroadcaster
 
     fun initApp(context: Context,handler : Handler){
-
-        val tempManager = BarcodeManager()
+        val dao = DatabaseHelper(RemoteDatabase())
+        val tempManager = BarcodeManager(dao)
 
         barcodesManager = tempManager
 
@@ -58,6 +60,8 @@ object Provider {
         cameraController = CameraController(cameraAnalyser)
 
         licenseManager = LicensesManager(resourceLoader)
+
+        barcodeBroadcaster = BarcodeBroadcaster()
     }
 
 
