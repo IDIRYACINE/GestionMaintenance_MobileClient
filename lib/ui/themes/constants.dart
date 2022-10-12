@@ -1,0 +1,2 @@
+
+const appName = "Embag GMAO";

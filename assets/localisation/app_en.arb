@@ -1,0 +1,15 @@
+{ 
+    "@@locale": "en",
+    "title" : "Embag GMAO",
+    "settings" : "Settings",
+    "home" : "Home",
+    "language" : "Language",
+    "playSoundOnScan" : "Play sound on scan",
+    "playSoundOnScanDescription" : "Play a sound when a barcode is scanned",
+    "vibrateOnScan" : "Vibrate on scan",
+    "vibrateOnScanDescription" : "Vibrate when a barcode is scanned",
+    "continuousScan" : "Continuous scan",
+    "continuousScanDescription" : "Scan continuously without having to press the button",
+    "scanButton" : "Scan",
+    "send" : "Send"
+}
