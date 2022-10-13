@@ -9,31 +9,34 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Localisations.of(context)!.title),
-      ),
-      body: Center(
-        child: StoreConnector<AppState, String>(
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      builder: (context, appState) => Scaffold(
+        appBar: AppBar(
+          title: Text(Localisations.of(context)!.title),
+        ),
+        body: Center(
+          child: StoreConnector<AppState, String>(
+            converter: (store) {
+              return store.state.settingsState.playSound.enabled.toString();
+            },
+            builder: (context, state) {
+              return Text(state);
+            },
+          ),
+        ),
+        floatingActionButton: StoreConnector<AppState, VoidCallback>(
           converter: (store) {
-            return store.state.settingsState.playSound.enabled.toString();
+            return () => store.dispatch(ToggleVibrationAction());
           },
-          builder: (context, state) {
-            return Text(state);
+          builder: (context, callback) {
+            return FloatingActionButton(
+              onPressed: callback,
+              tooltip: 'test',
+              child: const Icon(Icons.add),
+            );
           },
         ),
-      ),
-      floatingActionButton: StoreConnector<AppState, VoidCallback>(
-        converter: (store) {
-          return () => store.dispatch(ToggleVibrationAction());
-        },
-        builder: (context, callback) {
-          return FloatingActionButton(
-            onPressed: callback,
-            tooltip: 'test',
-            child: const Icon(Icons.add),
-          );
-        },
       ),
     );
   }

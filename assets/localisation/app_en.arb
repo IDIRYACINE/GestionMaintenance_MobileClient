@@ -11,5 +11,10 @@
     "continuousScan" : "Continuous scan",
     "continuousScanDescription" : "Scan continuously without having to press the button",
     "scanButton" : "Scan",
-    "send" : "Send"
+    "send" : "Send",
+    "noCameraDetected" : "No camera detected",
+    "requestCameraAccess" : "Allow camera access",
+    "login" : "login",
+    "username" : "Username",
+    "password" : "Password"
 }

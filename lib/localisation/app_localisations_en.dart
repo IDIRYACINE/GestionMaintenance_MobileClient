@@ -39,4 +39,19 @@ class LocalisationsEn extends Localisations {
 
   @override
   String get send => 'Send';
+
+  @override
+  String get noCameraDetected => 'No camera detected';
+
+  @override
+  String get requestCameraAccess => 'Allow camera access';
+
+  @override
+  String get login => 'login';
+
+  @override
+  String get username => 'Username';
+
+  @override
+  String get password => 'Password';
 }

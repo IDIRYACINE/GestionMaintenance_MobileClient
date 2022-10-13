@@ -162,6 +162,36 @@ abstract class Localisations {
   /// In en, this message translates to:
   /// **'Send'**
   String get send;
+
+  /// No description provided for @noCameraDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'No camera detected'**
+  String get noCameraDetected;
+
+  /// No description provided for @requestCameraAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow camera access'**
+  String get requestCameraAccess;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'login'**
+  String get login;
+
+  /// No description provided for @username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get username;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
 }
 
 class _LocalisationsDelegate extends LocalizationsDelegate<Localisations> {
