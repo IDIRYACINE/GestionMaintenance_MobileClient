@@ -11,11 +11,11 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey _formKey = GlobalKey();
+    final GlobalKey formKey = GlobalKey();
 
     return Scaffold(
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           children: [
             Image.asset(loginLogoAsset),
