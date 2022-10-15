@@ -1,35 +1,34 @@
-import 'types.dart';
+import 'package:gestion_maintenance_mobile/blocs/settings/types.dart';
 
 class SettingsState {
-  SettingsItem playSound;
-  SettingsItem vibrateOnScan;
-  SettingsItem continousScan;
-  
-  SettingsState({
-    required this.playSound ,
-    required this.vibrateOnScan ,
-    required this.continousScan ,
-  });
+  final SettingsItem _playSoundSetting;
+  final SettingsItem _vibrateOnScanSetting;
+  final SettingsItem _continousScanSetting;
+
+  SettingsState(this._playSoundSetting, this._vibrateOnScanSetting,
+      this._continousScanSetting);
+
+  SettingsItem get playSoundSetting => _playSoundSetting;
+  SettingsItem get vibrateOnScanSetting => _vibrateOnScanSetting;
+  SettingsItem get continousScanSetting => _continousScanSetting;
+
+  SettingsState copyWith(
+      {SettingsItem? playSoundSetting,
+      SettingsItem? vibrateOnScanSetting,
+      SettingsItem? continousScanSetting}) {
+    return SettingsState(
+        playSoundSetting ?? _playSoundSetting,
+        vibrateOnScanSetting ?? _vibrateOnScanSetting,
+        continousScanSetting ?? _continousScanSetting);
+  }
 
   factory SettingsState.initialState() => SettingsState(
-    playSound: PlaySoundSetting(),
-    vibrateOnScan: VibrateOnScanSetting(),
-    continousScan: ContinousScanSetting(),
-  );
+      PlaySoundSetting(enabled: true),
+      VibrateOnScanSetting(enabled: true),
+      ContinousScanSetting(enabled: false));
 
-  copyWith({
-    SettingsItem? playSound,
-    SettingsItem? vibrateOnScan,
-    SettingsItem? continousScan,
-  }) {
-    return SettingsState(
-      playSound: playSound ?? this.playSound,
-      vibrateOnScan: vibrateOnScan ?? this.vibrateOnScan,
-      continousScan: continousScan ?? this.continousScan,
-    );
-  }
-  
 }
+
 
 class PlaySoundSetting implements SettingsItem{
   late bool _enabled;
