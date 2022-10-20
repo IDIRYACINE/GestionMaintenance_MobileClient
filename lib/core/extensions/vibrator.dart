@@ -9,9 +9,9 @@ abstract class Vibrator {
   }
 }
 
-class DefaultVibrator implements Vibrator , BarcodeCenterExtension {
+class VibratorExtension implements Vibrator , BarcodeCenterExtension {
 
-  DefaultVibrator();
+  VibratorExtension();
 
   @override
   Future<void> vibrate() async {

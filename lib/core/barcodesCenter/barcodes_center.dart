@@ -1,14 +1,48 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:gestion_maintenance_mobile/blocs/settings/settings_state.dart';
+import 'package:gestion_maintenance_mobile/core/extensions/sound_player.dart';
+import 'package:gestion_maintenance_mobile/core/extensions/toaster.dart';
+import 'package:gestion_maintenance_mobile/core/extensions/vibrator.dart';
+import 'package:gestion_maintenance_mobile/ui/themes/constants.dart';
 import 'types.dart';
 
 class BarcodeCenter implements BarcodeManger{
+
+  BarcodeCenter._();
+
+  static BarcodeCenter? _instance ;
+
+  factory BarcodeCenter.instance() {
+    _instance ??= BarcodeCenter._();
+    return _instance!;
+  }
+
+  static initExtensions(SettingsState state,BuildContext appContext){
+    if(_instance == null) return;
+    _instance!._extensions.clear();
+
+    bool playSound = state.playSoundSetting.enabled;
+    if(playSound){
+      _instance!.addExtension(SoundPlayerExtension(onScanBarcodeSound));
+    }
+
+    bool vibrate = state.vibrateOnScanSetting.enabled;
+    if(vibrate){
+      _instance!.addExtension(VibratorExtension());
+    }
+
+    _instance!.addExtension(ToasterExtension(appContext));
+
+  }
+
   final List<BarcodeSubscriber> _subscribers = [];
   final List<BarcodeCenterExtension> _extensions = [];
 
   @override
   Future<void> emitBarcode(String barcode) async {
-    for(BarcodeCenterExtension extension in _extensions){
-      extension.onBarcode(barcode);
+    for(BarcodeCenterExtension bExtension in _extensions){
+      bExtension.onBarcode(barcode);
     }
   }
   

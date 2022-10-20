@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_maintenance_mobile/ui/themes/constants.dart';
 
 class BottomNavigation extends StatefulWidget {
   final int initialIndex;
@@ -33,12 +34,15 @@ class _BottomNavigationState extends State<BottomNavigation> {
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
+          label: homeLabel,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.scanner),
+          label: scanLabel,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
+          label: settingsLabel,
         ),
       ],
     );

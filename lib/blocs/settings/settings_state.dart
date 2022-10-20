@@ -24,7 +24,7 @@ class SettingsState {
 
   factory SettingsState.initialState() => SettingsState(
       PlaySoundSetting(enabled: true),
-      VibrateOnScanSetting(enabled: true),
+      VibrateOnScanSetting(enabled: false),
       ContinousScanSetting(enabled: false));
 
 }

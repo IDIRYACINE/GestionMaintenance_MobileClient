@@ -1,10 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
-import 'package:gestion_maintenance_mobile/components/scanner/types.dart'
+import 'package:gestion_maintenance_mobile/core/scanner/types.dart'
     as app;
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 
-class MlkitScanner implements app.BarcodeScanner {
+class MlkitScanner implements app.BarcodeAnalyser {
   late BarcodeScanner barcodeScanner;
 
   MlkitScanner() {

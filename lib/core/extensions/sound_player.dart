@@ -5,11 +5,11 @@ abstract class SoundPlayer {
   Future<void> playSound();
 }
 
-class DefaulSoundPlayer implements SoundPlayer, BarcodeCenterExtension {
+class SoundPlayerExtension implements SoundPlayer, BarcodeCenterExtension {
   String soundPath;
   late AssetsAudioPlayer _assetsAudioPlayer ;
 
-  DefaulSoundPlayer(this.soundPath){
+  SoundPlayerExtension(this.soundPath){
     _assetsAudioPlayer = AssetsAudioPlayer();
     _assetsAudioPlayer.open(Audio(soundPath));
   }

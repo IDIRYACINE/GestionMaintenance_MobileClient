@@ -6,10 +6,10 @@ abstract class Toaster {
   void show(String message);
 }
 
-class DefaultToaster implements Toaster , BarcodeCenterExtension{
+class ToasterExtension implements Toaster , BarcodeCenterExtension{
   late FToast fToast;
 
-  DefaultToaster(BuildContext appContext){
+  ToasterExtension(BuildContext appContext){
     fToast = FToast();
     fToast.init(appContext);
   }
