@@ -1,26 +1,36 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/types.dart';
+import 'package:just_audio/just_audio.dart';
 
 abstract class SoundPlayer {
   Future<void> playSound();
+  Future<void> setAsset(String soundPath);
 }
 
 class SoundPlayerExtension implements SoundPlayer, BarcodeCenterExtension {
-  String soundPath;
-  late AssetsAudioPlayer _assetsAudioPlayer ;
+  late AudioPlayer audioPlayer;
+  static SoundPlayerExtension? _instance;
 
-  SoundPlayerExtension(this.soundPath){
-    _assetsAudioPlayer = AssetsAudioPlayer();
-    _assetsAudioPlayer.open(Audio(soundPath));
+  SoundPlayerExtension._(){
+   audioPlayer = AudioPlayer();
+  }
+
+  factory SoundPlayerExtension.instance() {
+    _instance??= SoundPlayerExtension._();
+    return _instance!;
   }
   
   @override
   Future<void> playSound() async {
-    _assetsAudioPlayer.play();
+    audioPlayer.play();
   }
   
   @override
   void onBarcode(String barcode) {
     playSound();
+  }
+  
+  @override
+  Future<void> setAsset(String soundPath) async {
+    audioPlayer.setAsset(soundPath);
   }
 }

@@ -11,7 +11,14 @@ abstract class Vibrator {
 
 class VibratorExtension implements Vibrator , BarcodeCenterExtension {
 
-  VibratorExtension();
+  VibratorExtension._();
+
+  static VibratorExtension? _instance;
+
+  factory VibratorExtension.instance() {
+    _instance ??= VibratorExtension._();
+    return _instance!;
+  }
 
   @override
   Future<void> vibrate() async {

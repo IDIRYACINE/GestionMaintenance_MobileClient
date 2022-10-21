@@ -17,4 +17,22 @@ abstract class BarcodeCenterExtension {
     void onBarcode(String barcode);
 }
 
+class UnassaignedExtension implements BarcodeCenterExtension {
+  UnassaignedExtension._();
+  static UnassaignedExtension? _instance;
 
+
+  factory UnassaignedExtension.instance() {
+    _instance ??= UnassaignedExtension._();
+    return _instance!;
+  }
+
+  @override
+  void onBarcode(String barcode) {}
+}
+
+enum RegisteredExtensions{
+  soundPlayer,
+  toaster,
+  vibrator
+}

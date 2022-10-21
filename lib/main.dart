@@ -20,6 +20,8 @@ void main() {
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
+  static late BuildContext appContext;
+
   Future<void> initApp(BuildContext appContext) async {
     BarcodeCenter.instance();
     BarcodeCenter.initExtensions(SettingsState.initialState(), appContext);
@@ -41,6 +43,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    appContext = context;
+    
     return MaterialApp(
       title: appName,
       localizationsDelegates: Localisations.localizationsDelegates,

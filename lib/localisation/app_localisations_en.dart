@@ -35,10 +35,19 @@ class LocalisationsEn extends Localisations {
   String get continuousScanDescription => 'Scan continuously without having to press the button';
 
   @override
+  String get cameraResolution => 'Camera resolution';
+
+  @override
+  String get cameraResolutionDescription => 'Choose the camera resolution to use';
+
+  @override
   String get scanButton => 'Scan';
 
   @override
   String get send => 'Send';
+
+  @override
+  String get confirm => 'Confirm';
 
   @override
   String get noCameraDetected => 'No camera detected';

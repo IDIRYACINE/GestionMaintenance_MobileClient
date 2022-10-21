@@ -1,36 +1,43 @@
 import 'package:gestion_maintenance_mobile/blocs/settings/types.dart';
+import 'package:camera/camera.dart';
 
 class SettingsState {
-  final SettingsItem _playSoundSetting;
-  final SettingsItem _vibrateOnScanSetting;
-  final SettingsItem _continousScanSetting;
+  final ToggleSettingsItem _playSoundSetting;
+  final ToggleSettingsItem _vibrateOnScanSetting;
+  final ToggleSettingsItem _continousScanSetting;
+  final ComboSettingsItem<ResolutionPreset> _cameraResolutionSetting;
 
   SettingsState(this._playSoundSetting, this._vibrateOnScanSetting,
-      this._continousScanSetting);
+      this._continousScanSetting, this._cameraResolutionSetting);
 
-  SettingsItem get playSoundSetting => _playSoundSetting;
-  SettingsItem get vibrateOnScanSetting => _vibrateOnScanSetting;
-  SettingsItem get continousScanSetting => _continousScanSetting;
+  ToggleSettingsItem get playSoundSetting => _playSoundSetting;
+  ToggleSettingsItem get vibrateOnScanSetting => _vibrateOnScanSetting;
+  ToggleSettingsItem get continousScanSetting => _continousScanSetting;
+    ComboSettingsItem<ResolutionPreset> get cameraResolutionSetting => _cameraResolutionSetting;
+
 
   SettingsState copyWith(
-      {SettingsItem? playSoundSetting,
-      SettingsItem? vibrateOnScanSetting,
-      SettingsItem? continousScanSetting}) {
+      {ToggleSettingsItem? playSoundSetting,
+      ToggleSettingsItem? vibrateOnScanSetting,
+      ToggleSettingsItem? continousScanSetting,
+      ComboSettingsItem<ResolutionPreset>? cameraResolutionSetting}) {
     return SettingsState(
         playSoundSetting ?? _playSoundSetting,
         vibrateOnScanSetting ?? _vibrateOnScanSetting,
-        continousScanSetting ?? _continousScanSetting);
+        continousScanSetting ?? _continousScanSetting,
+        cameraResolutionSetting ?? _cameraResolutionSetting);
   }
 
   factory SettingsState.initialState() => SettingsState(
       PlaySoundSetting(enabled: true),
       VibrateOnScanSetting(enabled: false),
-      ContinousScanSetting(enabled: false));
+      ContinousScanSetting(enabled: false),
+      CameraResolutionSetting(ResolutionPreset.medium));
 
 }
 
 
-class PlaySoundSetting implements SettingsItem{
+class PlaySoundSetting implements ToggleSettingsItem{
   late bool _enabled;
   
   PlaySoundSetting({enabled = true }){
@@ -54,7 +61,7 @@ class PlaySoundSetting implements SettingsItem{
 }
 
 
-class VibrateOnScanSetting implements SettingsItem{
+class VibrateOnScanSetting implements ToggleSettingsItem{
   late bool _enabled;
   
   VibrateOnScanSetting({enabled = true }){
@@ -77,7 +84,7 @@ class VibrateOnScanSetting implements SettingsItem{
 
 }
 
-class ContinousScanSetting implements SettingsItem{
+class ContinousScanSetting implements ToggleSettingsItem{
  late bool _enabled;
   
   ContinousScanSetting({enabled = true }){
@@ -97,5 +104,29 @@ class ContinousScanSetting implements SettingsItem{
   
   @override
   String get name => SettingsTypes.continousScan.name;
+
+}
+
+class CameraResolutionSetting implements ComboSettingsItem<ResolutionPreset>{
+
+  CameraResolutionSetting(this._value);
+
+  final ResolutionPreset _value;
+
+  @override
+  String? getDescription() {
+    return _value.name;
+  }
+
+  @override
+  SettingsTypes get id => SettingsTypes.cameraResolution;
+
+  @override
+  String get name => SettingsTypes.cameraResolution.name;
+
+  @override
+  ResolutionPreset get value => _value;
+
+  static List<ResolutionPreset> get allValues => ResolutionPreset.values;
 
 }

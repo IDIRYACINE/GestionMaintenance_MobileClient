@@ -24,15 +24,17 @@ class BarcodeCenter implements BarcodeManger{
 
     bool playSound = state.playSoundSetting.enabled;
     if(playSound){
-      _instance!.addExtension(SoundPlayerExtension(onScanBarcodeSound));
+      SoundPlayerExtension soundPlayer = SoundPlayerExtension.instance();
+      soundPlayer.setAsset(onScanBarcodeSound);
+      _instance!.addExtension(soundPlayer);
     }
 
     bool vibrate = state.vibrateOnScanSetting.enabled;
     if(vibrate){
-      _instance!.addExtension(VibratorExtension());
+      _instance!.addExtension(VibratorExtension.instance());
     }
 
-    _instance!.addExtension(ToasterExtension(appContext));
+    _instance!.addExtension(ToasterExtension.instance(appContext));
 
   }
 

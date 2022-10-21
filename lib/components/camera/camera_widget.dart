@@ -1,15 +1,20 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_maintenance_mobile/components/camera/camera_controller.dart';
+import 'package:gestion_maintenance_mobile/components/widgets/custom_rows.dart';
 import 'package:gestion_maintenance_mobile/localisation/app_localisations.dart';
 import 'types.dart';
 
 class CameraView extends StatelessWidget {
   const CameraView(
-      {super.key, required this.onScanImage, required this.onInitialise});
+      {super.key,
+      required this.onScanImage,
+      required this.onInitialise,
+      this.resolution = ResolutionPreset.medium});
 
   final OnInitialise onInitialise;
   final OnScanImage onScanImage;
+  final ResolutionPreset resolution;
 
   Widget _buildCameraPreview(
       CameraController cameraController, CameraDescription cameraDescription) {
@@ -50,7 +55,7 @@ class CameraView extends StatelessWidget {
 
             CameraController cameraController = CameraController(
               backCamera,
-              ResolutionPreset.medium,
+              resolution,
             );
             return _buildCameraPreview(cameraController, backCamera);
           } else {
@@ -137,5 +142,71 @@ class _CameraPreviewState extends State<_CameraPreview> {
         ),
       )
     ]);
+  }
+}
+
+class CameraResolutionSelector extends StatefulWidget {
+  const CameraResolutionSelector({
+    super.key,
+    required this.resolutions,
+    required this.confirmLabel,
+    this.maxHeight = 400,
+    this.maxWidth = 300,
+    required this.initialResolution,
+  });
+
+  final List<ResolutionPreset> resolutions;
+  final ResolutionPreset initialResolution;
+  final String confirmLabel;
+  final double maxHeight;
+  final double maxWidth;
+
+  @override
+  State<CameraResolutionSelector> createState() =>
+      _CameraResolutionSelectorState();
+}
+
+class _CameraResolutionSelectorState extends State<CameraResolutionSelector> {
+  ResolutionPreset? currentResolution;
+
+  void onResolutionSelected(ResolutionPreset? newResolution) {
+    if ((newResolution != null) && (newResolution != currentResolution)) {
+      setState(() {
+        currentResolution = newResolution;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    currentResolution ??= widget.initialResolution;
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: widget.maxHeight,
+        maxWidth: widget.maxWidth,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: ListView.builder(
+              itemBuilder: ((context, index) => RadioRow<ResolutionPreset>(
+                  title: widget.resolutions[index].name,
+                  rowValue: widget.resolutions[index],
+                  groupValue: currentResolution!,
+                  onSelected: onResolutionSelected)),
+              itemCount: widget.resolutions.length,
+            ),
+          ),
+          MaterialButton(
+            child: Text(widget.confirmLabel),
+            onPressed: () {
+              Navigator.pop(context, currentResolution);
+            },
+          )
+        ],
+      ),
+    );
   }
 }

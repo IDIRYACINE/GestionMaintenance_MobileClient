@@ -151,6 +151,18 @@ abstract class Localisations {
   /// **'Scan continuously without having to press the button'**
   String get continuousScanDescription;
 
+  /// No description provided for @cameraResolution.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera resolution'**
+  String get cameraResolution;
+
+  /// No description provided for @cameraResolutionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the camera resolution to use'**
+  String get cameraResolutionDescription;
+
   /// No description provided for @scanButton.
   ///
   /// In en, this message translates to:
@@ -162,6 +174,12 @@ abstract class Localisations {
   /// In en, this message translates to:
   /// **'Send'**
   String get send;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
 
   /// No description provided for @noCameraDetected.
   ///

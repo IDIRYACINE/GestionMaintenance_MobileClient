@@ -3,6 +3,7 @@ import 'package:gestion_maintenance_mobile/components/camera/types.dart';
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/barcodes_center.dart';
 import 'package:gestion_maintenance_mobile/core/scanner/types.dart';
 import 'google_analyser.dart';
+import 'dart:developer' as dev;
 
 class Scanner {
   Scanner() {
@@ -15,7 +16,7 @@ class Scanner {
   bool _isContinousScan = false;
 
   void toggleScan(isScanning) {
-    if (!isScanning) {
+    if (isScanning) {
       _controller.stopImageStream();
       return;
     }
@@ -35,7 +36,7 @@ class Scanner {
   void _onCameraImage(CameraImage image) {
     _analyser.scan(image).then((barcodes) {
       String? barcode = barcodes.first;
-
+      dev.log("Barcode: $barcode", name: "idir.app");
       if (_isValidBarcode(barcode)) {
         BarcodeCenter.instance().emitBarcode(barcode);
         if (!_isContinousScan) {
