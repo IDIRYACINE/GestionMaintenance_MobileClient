@@ -5,12 +5,15 @@ import 'package:gestion_maintenance_mobile/blocs/display/display_state.dart';
 import 'package:gestion_maintenance_mobile/blocs/settings/settings_state.dart';
 import 'package:gestion_maintenance_mobile/components/navigation/bottom_navigation.dart';
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/barcodes_center.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
 import 'package:gestion_maintenance_mobile/localisation/app_localisations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/settings/settings_bloc.dart';
 import 'ui/themes/constants.dart';
 
 void main() {
+  ServicesCenter.instance();
+  
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (_) => SettingsBloc()),
     BlocProvider(create: (_) => DisplayBloc()),
