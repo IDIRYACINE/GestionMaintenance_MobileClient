@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_maintenance_mobile/blocs/display/display_bloc.dart';
-import 'package:gestion_maintenance_mobile/blocs/display/display_event.dart';
-import 'package:gestion_maintenance_mobile/blocs/display/display_state.dart';
+import 'package:gestion_maintenance_mobile/blocs/app/app_bloc.dart';
+import 'package:gestion_maintenance_mobile/blocs/app/app_event.dart';
+import 'package:gestion_maintenance_mobile/blocs/app/app_state.dart';
 import 'package:gestion_maintenance_mobile/blocs/settings/settings_state.dart';
 import 'package:gestion_maintenance_mobile/components/navigation/bottom_navigation.dart';
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/barcodes_center.dart';
@@ -13,32 +13,30 @@ import 'ui/themes/constants.dart';
 
 void main() {
   ServicesCenter.instance();
-  
+
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (_) => SettingsBloc()),
-    BlocProvider(create: (_) => DisplayBloc()),
+    BlocProvider(create: (_) => AppBloc()),
   ], child: const App()));
 }
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
-  static late BuildContext appContext;
-
   Future<void> initApp(BuildContext appContext) async {
     BarcodeCenter.instance();
-    BarcodeCenter.initExtensions(SettingsState.initialState(), appContext);
+    BarcodeCenter.initExtensions(SettingsState.initialState());
     await Future.delayed(const Duration(seconds: 5));
   }
 
   Widget buildApp() {
-    return BlocBuilder<DisplayBloc, DisplayState>(builder: (context, state) {
+    return BlocBuilder<AppBloc, AppState>(builder: (context, state) {
+
       return Scaffold(
         body: state.selectedPage,
         bottomNavigationBar: BottomNavigation(
           initialIndex: state.selectedIndex,
-          onTap: (index) =>
-              context.read<DisplayBloc>().add(NavigateByIndex(index)),
+          onTap: (index) => context.read<AppBloc>().add(NavigateByIndex(index)),
         ),
       );
     });
@@ -46,8 +44,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    appContext = context;
-    
     return MaterialApp(
       title: appName,
       localizationsDelegates: Localisations.localizationsDelegates,

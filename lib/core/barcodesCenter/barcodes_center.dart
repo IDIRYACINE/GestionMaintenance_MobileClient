@@ -18,7 +18,7 @@ class BarcodeCenter implements BarcodeManger{
     return _instance!;
   }
 
-  static initExtensions(SettingsState state,BuildContext appContext){
+  static initExtensions(SettingsState state){
     if(_instance == null) return;
     _instance!._extensions.clear();
 
@@ -34,7 +34,7 @@ class BarcodeCenter implements BarcodeManger{
       _instance!.addExtension(VibratorExtension.instance());
     }
 
-    _instance!.addExtension(ToasterExtension.instance(appContext));
+    _instance!.addExtension(ToasterExtension.instance());
 
   }
 

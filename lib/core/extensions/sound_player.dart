@@ -31,6 +31,6 @@ class SoundPlayerExtension implements SoundPlayer, BarcodeCenterExtension {
   
   @override
   Future<void> setAsset(String soundPath) async {
-    audioPlayer.setAsset(soundPath);
+    audioPlayer.setAsset(soundPath,preload: false);
   }
 }

@@ -10,7 +10,7 @@ const scanLabel = "Scan";
 const settingsLabel = "Settings";
 const homeLabel = "Home";
 
-const onScanBarcodeSound = "/audios/mixkit-sci-fi-click-900.wav";
+const onScanBarcodeSound = "assets/audios/scanSound.wav";
 
 const playSoundIcon = Icons.music_note;
 const continousScanIcon = Icons.repeat_on;

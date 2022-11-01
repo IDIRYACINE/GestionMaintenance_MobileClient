@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ftoast/ftoast.dart';
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/types.dart';
 import 'dart:developer' as dev;
+
+import 'package:gestion_maintenance_mobile/main.dart';
 
 abstract class Toaster {
   void show(String message);
@@ -10,33 +12,33 @@ abstract class Toaster {
 class ToasterExtension implements Toaster, BarcodeCenterExtension {
   late FToast fToast;
   static ToasterExtension? _instance;
+  late BuildContext _appContext;
 
-  ToasterExtension._(BuildContext appContext) {
-    fToast = FToast();
-    fToast.init(appContext);
-  }
+  ToasterExtension._();
 
-  factory ToasterExtension.instance(BuildContext? appContext) {
-    assert(
-      (appContext == null) && (_instance != null),
-      '''ToasterExtension.instance() must be initialised with a valid BuildContext before 
-        calling it without a BuildContext''',
-    );
+  factory ToasterExtension.instance() {
+   
 
-    _instance ??= ToasterExtension._(appContext!);
+    _instance ??= ToasterExtension._();
+
     return _instance!;
   }
 
   @override
   void show(String message) {
-    fToast.showToast(child: _ToastWidget(message));
+    FToast.toast(_appContext,
+    msg: message);
   }
 
   @override
   void onBarcode(String barcode) {
-    dev.log(barcode, name: "idir.app");
     show(barcode);
   }
+
+  void setBuildContext(BuildContext context) {
+    _appContext = context;
+  }
+
 }
 
 class _ToastWidget extends StatelessWidget {
@@ -47,15 +49,17 @@ class _ToastWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-      ),
-      color: theme.colorScheme.secondaryContainer,
-      child: Text(
-        message,
-        style: theme.textTheme.bodySmall!
-            .copyWith(color: theme.colorScheme.primary),
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        color: theme.colorScheme.secondaryContainer,
+        child: Text(
+          message,
+          style: theme.textTheme.bodySmall!
+              .copyWith(color: theme.colorScheme.primary),
+        ),
       ),
     );
   }

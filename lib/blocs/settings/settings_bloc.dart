@@ -36,8 +36,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   Future<void> _onTogglePlaySound(
       TogglePlaySound event, Emitter<SettingsState> emitter) async {
-    bool isEnabled = !state.vibrateOnScanSetting.enabled;
-
+    bool isEnabled = !state.playSoundSetting.enabled;
+    
     PlaySoundSetting newSetting = PlaySoundSetting(enabled: isEnabled);
     if (isEnabled) {
       SoundPlayerExtension soundPlayer = SoundPlayerExtension.instance();
@@ -46,6 +46,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } else {
       BarcodeCenter.instance().removeExtension(SoundPlayerExtension.instance());
     }
+
     emitter(state.copyWith(playSoundSetting: newSetting));
   }
+
 }

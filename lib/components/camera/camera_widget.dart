@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:ftoast/ftoast.dart';
 import 'package:gestion_maintenance_mobile/components/camera/camera_controller.dart';
 import 'package:gestion_maintenance_mobile/components/widgets/custom_rows.dart';
 import 'package:gestion_maintenance_mobile/localisation/app_localisations.dart';
@@ -8,13 +9,15 @@ import 'types.dart';
 class CameraView extends StatelessWidget {
   const CameraView(
       {super.key,
-      required this.onScanImage,
       required this.onInitialise,
-      this.resolution = ResolutionPreset.medium});
+      this.resolution = ResolutionPreset.medium,
+      required this.scanWidget,
+      required this.flashWidget});
 
   final OnInitialise onInitialise;
-  final OnScanImage onScanImage;
   final ResolutionPreset resolution;
+  final Widget scanWidget;
+  final Widget flashWidget;
 
   Widget _buildCameraPreview(
       CameraController cameraController, CameraDescription cameraDescription) {
@@ -27,7 +30,8 @@ class CameraView extends StatelessWidget {
           return _CameraPreview(
             cameraController: cameraController,
             camera: cameraDescription,
-            onScanImage: onScanImage,
+            flashWidget: flashWidget,
+            scanWidget: scanWidget,
           );
         } else {
           return Center(
@@ -68,28 +72,14 @@ class CameraView extends StatelessWidget {
 class _CameraPreview extends StatefulWidget {
   final CameraDescription camera;
   final CameraController cameraController;
-  final Widget flashToggle;
-  final Widget scanPicture;
-  final Widget stopScanning;
-
-  final OnScanImage onScanImage;
+  final Widget flashWidget;
+  final Widget scanWidget;
 
   const _CameraPreview({
     required this.cameraController,
-    // ignore: unused_element
-    this.flashToggle = const Icon(Icons.flash_on, size: 40),
-    // ignore: unused_element
-    this.scanPicture = const Icon(
-      Icons.qr_code,
-      size: 40,
-    ),
-    // ignore: unused_element
-    this.stopScanning = const Icon(
-      Icons.stop,
-      size: 40,
-    ),
+    required this.flashWidget,
+    required this.scanWidget,
     required this.camera,
-    required this.onScanImage,
   });
 
   @override
@@ -98,7 +88,6 @@ class _CameraPreview extends StatefulWidget {
 
 class _CameraPreviewState extends State<_CameraPreview> {
   bool isFlashOn = false;
-  bool isScanning = false;
 
   void toggleFlash() {
     if (isFlashOn) {
@@ -109,13 +98,6 @@ class _CameraPreviewState extends State<_CameraPreview> {
 
     setState(() {
       isFlashOn = !isFlashOn;
-    });
-  }
-
-  void toggleScan() {
-    setState(() {
-      isScanning = !isScanning;
-      widget.onScanImage(isScanning);
     });
   }
 
@@ -132,12 +114,9 @@ class _CameraPreviewState extends State<_CameraPreview> {
           children: [
             InkWell(
               onTap: toggleFlash,
-              child: widget.flashToggle,
+              child: widget.flashWidget,
             ),
-            InkWell(
-              onTap: toggleScan,
-              child: isScanning ? widget.stopScanning : widget.scanPicture,
-            ),
+            widget.scanWidget,
           ],
         ),
       )
