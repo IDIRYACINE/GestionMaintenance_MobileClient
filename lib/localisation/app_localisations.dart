@@ -210,6 +210,18 @@ abstract class Localisations {
   /// In en, this message translates to:
   /// **'Password'**
   String get password;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get loading;
+
+  /// No description provided for @itemsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Items count'**
+  String get itemsCount;
 }
 
 class _LocalisationsDelegate extends LocalizationsDelegate<Localisations> {

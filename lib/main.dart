@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_maintenance_mobile/blocs/app/app_bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/app/app_event.dart';
 import 'package:gestion_maintenance_mobile/blocs/app/app_state.dart';
+import 'package:gestion_maintenance_mobile/blocs/records/records_block.dart';
 import 'package:gestion_maintenance_mobile/blocs/settings/settings_state.dart';
 import 'package:gestion_maintenance_mobile/components/navigation/bottom_navigation.dart';
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/barcodes_center.dart';
@@ -17,6 +18,7 @@ void main() {
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (_) => SettingsBloc()),
     BlocProvider(create: (_) => AppBloc()),
+    BlocProvider(create: (_) => RecordsBloc())
   ], child: const App()));
 }
 

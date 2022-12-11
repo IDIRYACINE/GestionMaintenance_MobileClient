@@ -19,4 +19,17 @@ class UpdateRecord extends RecordEvent{
   UpdateRecord(this.record, this.index);
 }
 
+class AddBarcode extends RecordEvent{
+  final int barcode;
+
+  AddBarcode(this.barcode);
+}
+
+class UpdateBarcode extends RecordEvent{
+  final Barcode barcode;
+  final int locationId;
+
+  UpdateBarcode(this.barcode, this.locationId);
+}
+
 

@@ -19,5 +19,7 @@
     "requestCameraAccess" : "Allow camera access",
     "login" : "login",
     "username" : "Username",
-    "password" : "Password"
+    "password" : "Password",
+    "loading" : "Loading",
+    "itemsCount" : "Items count"
 }

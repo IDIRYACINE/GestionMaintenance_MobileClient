@@ -63,4 +63,10 @@ class LocalisationsEn extends Localisations {
 
   @override
   String get password => 'Password';
+
+  @override
+  String get loading => 'Loading';
+
+  @override
+  String get itemsCount => 'Items count';
 }
