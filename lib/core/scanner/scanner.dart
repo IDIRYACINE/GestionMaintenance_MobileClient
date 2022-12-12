@@ -2,7 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:gestion_maintenance_mobile/components/camera/types.dart';
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/barcodes_center.dart';
 import 'package:gestion_maintenance_mobile/core/scanner/types.dart';
-import 'package:gestion_maintenance_mobile/infrastructure/types.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 import 'google_analyser.dart';
 
 class Scanner {

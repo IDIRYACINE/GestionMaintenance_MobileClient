@@ -222,6 +222,12 @@ abstract class Localisations {
   /// In en, this message translates to:
   /// **'Items count'**
   String get itemsCount;
+
+  /// No description provided for @noItemsScanned.
+  ///
+  /// In en, this message translates to:
+  /// **'No items scanned'**
+  String get noItemsScanned;
 }
 
 class _LocalisationsDelegate extends LocalizationsDelegate<Localisations> {

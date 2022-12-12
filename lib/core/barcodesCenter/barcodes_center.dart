@@ -1,10 +1,15 @@
 import 'dart:async';
 import 'package:gestion_maintenance_mobile/blocs/records/records_block.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_events.dart';
+import 'package:gestion_maintenance_mobile/blocs/records/records_state.dart';
 import 'package:gestion_maintenance_mobile/blocs/settings/settings_state.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/sound_player.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/toaster.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/vibrator.dart';
+import 'package:gestion_maintenance_mobile/data/barcode.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/workRequests/requests.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 import 'package:gestion_maintenance_mobile/ui/themes/constants.dart';
 import 'types.dart';
 
@@ -51,7 +56,8 @@ class BarcodeCenter implements BarcodeManger {
     for (BarcodeCenterExtension bExtension in _extensions) {
       bExtension.onBarcode(barcode);
     }
-
+    int ibarcode = int.parse(barcode);
+    _registerBarcode(ibarcode);
   }
 
   @override
@@ -76,5 +82,25 @@ class BarcodeCenter implements BarcodeManger {
 
   void _registerBarcode(int barcode) {
     recordsBloc.add(AddBarcode(barcode));
+
+    Barcode mBarcode = Barcode(barcode: barcode, scannedDate: DateTime.now());
+
+    WorkRequest submitScannedBarcode = RequestBuilder.sendScannedBarcode(
+        barcode: mBarcode, onResponse: _onBarcodeDataReceived);
+
+    ServicesCenter.instance().emitWorkRequest(submitScannedBarcode);
+  }
+
+  void _onBarcodeDataReceived(ScannedItemData data) {
+    Record record =
+        recordsBloc.state.records[RecordState.pendingItemsRecordIndex]!;
+
+    Barcode updatedBarcode = record.barcodes[data.barcode]!.copyWith(
+      state: BarcodeStates.loaded,
+      name: data.itemName,
+    );
+
+    UpdateBarcode event = UpdateBarcode(updatedBarcode, data.locationId,data.locationName);
+    recordsBloc.add(event);
   }
 }

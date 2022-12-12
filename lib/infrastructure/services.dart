@@ -1,7 +1,7 @@
 import 'dart:isolate';
 
 import 'forwarder.dart';
-import 'types.dart';
+import 'workRequests/types.dart';
 
 class ServicesCenter {
 

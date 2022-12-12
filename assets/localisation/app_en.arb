@@ -21,5 +21,6 @@
     "username" : "Username",
     "password" : "Password",
     "loading" : "Loading",
-    "itemsCount" : "Items count"
+    "itemsCount" : "Items count",
+    "noItemsScanned" : "No items scanned"
 }

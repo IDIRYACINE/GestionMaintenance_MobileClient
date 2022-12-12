@@ -69,4 +69,7 @@ class LocalisationsEn extends Localisations {
 
   @override
   String get itemsCount => 'Items count';
+
+  @override
+  String get noItemsScanned => 'No items scanned';
 }

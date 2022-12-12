@@ -8,7 +8,7 @@ class AddRecord extends RecordEvent{
 }
 
 class LoadRecords extends RecordEvent{
-  final List<Record> records;
+  final Map<int,Record> records;
   LoadRecords(this.records);
 }
 
@@ -28,8 +28,9 @@ class AddBarcode extends RecordEvent{
 class UpdateBarcode extends RecordEvent{
   final Barcode barcode;
   final int locationId;
+  final String locationName;
 
-  UpdateBarcode(this.barcode, this.locationId);
+  UpdateBarcode(this.barcode, this.locationId, this.locationName);
 }
 
 

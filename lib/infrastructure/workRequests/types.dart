@@ -8,6 +8,7 @@ class WorkRequest<T> {
       required this.event,
       required this.data,
       this.responseDataType,
+      this.callback,
       this.voidCallback,
       this.hasCallback = false,
       this.hasVoidCallback = false});
@@ -16,7 +17,7 @@ class WorkRequest<T> {
   Tasks event;
   Type? responseDataType;
   VoidCallback? voidCallback;
-  Callback? callback;
+  Callback<T>? callback;
   late int workId ;
 
   bool hasCallback;
@@ -91,12 +92,15 @@ enum RequestDataKeys{
   id,
   count,
   scannedDate,
-  barcodes
+  barcodes,
+  workerId,
+  workerName
 }
 
 enum Tasks{
   saveLocalRecord,
   loadSessionLocalRecords,
+  registerScannedBarcode,
 }
 
 enum OperationStatus{

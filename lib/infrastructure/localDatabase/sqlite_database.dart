@@ -1,6 +1,6 @@
 
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
-import 'package:gestion_maintenance_mobile/infrastructure/server/types.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/types.dart';
 
 class SqliteDatabase implements Database{
   @override

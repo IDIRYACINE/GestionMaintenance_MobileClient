@@ -10,7 +10,7 @@ import 'package:gestion_maintenance_mobile/components/camera/camera_widget.dart'
 import 'package:gestion_maintenance_mobile/components/camera/types.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/toaster.dart';
 import 'package:gestion_maintenance_mobile/core/scanner/scanner.dart';
-import 'package:gestion_maintenance_mobile/infrastructure/types.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 import 'package:gestion_maintenance_mobile/ui/themes/themes.dart';
 
 class ScannerPage extends StatelessWidget {
