@@ -8,7 +8,7 @@ import 'package:gestion_maintenance_mobile/core/extensions/toaster.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/vibrator.dart';
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
-import 'package:gestion_maintenance_mobile/infrastructure/workRequests/requests.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/workRequests/remote_server_requests.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 import 'package:gestion_maintenance_mobile/ui/themes/constants.dart';
 import 'types.dart';
@@ -85,7 +85,7 @@ class BarcodeCenter implements BarcodeManger {
 
     Barcode mBarcode = Barcode(barcode: barcode, scannedDate: DateTime.now());
 
-    WorkRequest submitScannedBarcode = RequestBuilder.sendScannedBarcode(
+    WorkRequest submitScannedBarcode = RemoteServerRequestBuilder.sendScannedBarcode(
         barcode: mBarcode, onResponse: _onBarcodeDataReceived);
 
     ServicesCenter.instance().emitWorkRequest(submitScannedBarcode);

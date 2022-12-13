@@ -29,6 +29,19 @@ class Barcode {
         state: state ?? this.state,
         name: name ?? this.name);
   }
+
+  Map<String,dynamic> toJson () => {
+    'barcode': barcode,
+    'scannedDate': scannedDate,
+    'name': name
+  };
+
+  factory Barcode.fromJson(Map<String, dynamic> json) {
+    return Barcode(
+        barcode: json['barcode'],
+        scannedDate: DateTime.parse(json['scannedDate']),
+        name: json['name']);
+  }
 }
 
 class Record {

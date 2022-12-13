@@ -1,11 +1,13 @@
 
+import 'package:gestion_maintenance_mobile/infrastructure/workRequests/remote_server_requests.dart';
+
 typedef Callback<T> = void Function(T data);
 typedef VoidCallback = void Function();
 
 class WorkRequest<T> {
   WorkRequest(
       {required this.service,
-      required this.event,
+      required this.task,
       required this.data,
       this.responseDataType,
       this.callback,
@@ -14,7 +16,7 @@ class WorkRequest<T> {
       this.hasVoidCallback = false});
 
   AppServices service;
-  Tasks event;
+  Task task;
   Type? responseDataType;
   VoidCallback? voidCallback;
   Callback<T>? callback;
@@ -22,12 +24,12 @@ class WorkRequest<T> {
 
   bool hasCallback;
   bool hasVoidCallback;
-  Map<RequestDataKeys, dynamic> data;
+  dynamic data;
 
   RequestData toJson(int messageId) {
     return RequestData(
         service: service,
-        event: event,
+        task: task,
         data: data,
         messageId: messageId);
   }
@@ -36,13 +38,13 @@ class WorkRequest<T> {
 class RequestData{
   RequestData(
       {required this.service,
-      required this.event,
+      required this.task,
       required this.data,
       required this.messageId,
      });
       
   AppServices service;
-  Tasks event;
+  Task task;
 
   Map<RequestDataKeys, dynamic> data;
 
@@ -72,6 +74,10 @@ class WorkResult {
   }
 }
 
+abstract class ServiceTask<T>{
+  Future<T> execute(dynamic requestData);
+}
+
 enum WorkResultDataKeys{
   status,
   hasData,
@@ -97,14 +103,14 @@ enum RequestDataKeys{
   workerName
 }
 
-enum Tasks{
-  saveLocalRecord,
-  loadSessionLocalRecords,
-  registerScannedBarcode,
-}
-
 enum OperationStatus{
   success,
   failure,
   error,
+}
+
+class Task {
+  final int index;
+  final String name;
+  Task(this.index, this.name);
 }

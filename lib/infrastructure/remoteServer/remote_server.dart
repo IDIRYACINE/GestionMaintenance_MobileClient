@@ -1,26 +1,30 @@
-
+import 'dart:convert';
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/apis.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
+import 'responses.dart';
+import 'package:http/http.dart' as http;
 
-import 'types.dart';
 
-class Server implements RemoteServer{
-  
-  @override
-  Future<bool> authenticate({required String username, required String password}) {
-    // TODO: implement authenticate
-    throw UnimplementedError();
+class SendBarcodeTask extends ServiceTask<BarcodeResponse> {
+  late String _apiUrl;
+
+  SendBarcodeTask(String serverUrl) {
+    _apiUrl = '$serverUrl/${Apis.postSingleBarcode}';
   }
 
   @override
-  Future<void> sendBarcode({required Barcode barcode}) {
-    // TODO: implement sendBarcode
-    throw UnimplementedError();
-  }
+  Future<BarcodeResponse> execute(requestData) async {
+    Barcode barcode = requestData as Barcode;
 
-  @override
-  Future<void> sendRecord({required Record record}) {
-    // TODO: implement sendRecord
-    throw UnimplementedError();
+    return http
+        .post(Uri.parse(_apiUrl), body: barcode.toJson())
+        .then((responseJson) {
+      BarcodeResponse response =
+          BarcodeResponse.fromJson(jsonDecode(responseJson.body));
+      return response;
+    });
   }
-
 }
+
+class AuthenticateTask {}
