@@ -1,10 +1,10 @@
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/forwarder.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/responses.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/types.dart';
-
 import 'types.dart';
 
 abstract class RemoteServerRequestBuilder {
-  
   static WorkRequest sendScannedBarcode(
       {required Barcode barcode,
       required Callback<ScannedItemData> onResponse}) {
@@ -25,13 +25,16 @@ abstract class RemoteServerRequestBuilder {
   }
 }
 
-class ScannedItemData {
-  final int locationId;
-  final String itemName;
-  final int barcode;
-  final String locationName;
-
-  ScannedItemData(
-      this.locationId, this.itemName, this.barcode, this.locationName);
+class EmptyTask extends ServiceTask {
+  @override
+  Future execute(requestData) {
+    throw UnimplementedError();
+  }
 }
 
+class EmptyService extends ServiceHandler {
+  @override
+  Future<dynamic> handleMessage(RequestData message) {
+    throw UnimplementedError();
+  }
+}

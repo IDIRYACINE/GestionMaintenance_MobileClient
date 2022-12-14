@@ -5,8 +5,7 @@ import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dar
 import 'responses.dart';
 import 'package:http/http.dart' as http;
 
-
-class SendBarcodeTask extends ServiceTask<BarcodeResponse> {
+class SendBarcodeTask extends ServiceTask<ScannedItemData> {
   late String _apiUrl;
 
   SendBarcodeTask(String serverUrl) {
@@ -14,14 +13,15 @@ class SendBarcodeTask extends ServiceTask<BarcodeResponse> {
   }
 
   @override
-  Future<BarcodeResponse> execute(requestData) async {
+  Future<ScannedItemData> execute(requestData) async {
     Barcode barcode = requestData as Barcode;
+  
 
     return http
         .post(Uri.parse(_apiUrl), body: barcode.toJson())
         .then((responseJson) {
-      BarcodeResponse response =
-          BarcodeResponse.fromJson(jsonDecode(responseJson.body));
+      ScannedItemData response =
+          ScannedItemData.fromJson(jsonDecode(responseJson.body));
       return response;
     });
   }

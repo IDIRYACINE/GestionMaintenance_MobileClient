@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ftoast/ftoast.dart';
 import 'package:gestion_maintenance_mobile/blocs/app/app_bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/app/app_event.dart';
 import 'package:gestion_maintenance_mobile/blocs/app/app_state.dart';

@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:ftoast/ftoast.dart';
 import 'package:gestion_maintenance_mobile/components/camera/camera_controller.dart';
 import 'package:gestion_maintenance_mobile/components/widgets/custom_rows.dart';
 import 'package:gestion_maintenance_mobile/localisation/app_localisations.dart';

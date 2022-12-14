@@ -1,5 +1,4 @@
 
-import 'package:gestion_maintenance_mobile/infrastructure/workRequests/remote_server_requests.dart';
 
 typedef Callback<T> = void Function(T data);
 typedef VoidCallback = void Function();

@@ -7,6 +7,7 @@ import 'package:gestion_maintenance_mobile/core/extensions/sound_player.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/toaster.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/vibrator.dart';
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/responses.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/remote_server_requests.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';

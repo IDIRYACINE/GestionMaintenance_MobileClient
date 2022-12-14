@@ -18,7 +18,7 @@ abstract class Database{
 abstract class RemoteServer{
   Future<bool> authenticate({required String username ,required  String password});
 
-  Future<BarcodeResponse> sendBarcode({required Barcode barcode});
+  Future<ScannedItemData> sendBarcode({required Barcode barcode});
   Future<void> sendRecord({required Record record});
 }
 

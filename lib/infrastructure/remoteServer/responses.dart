@@ -1,15 +1,15 @@
 
-class BarcodeResponse{
+class ScannedItemData{
 
   final int barcode;
   final String itemName;
   final String locationName;
   final int locationId;
 
-  BarcodeResponse(this.barcode, this.itemName, this.locationName, this.locationId);
+  ScannedItemData(this.barcode, this.itemName, this.locationName, this.locationId);
 
-  factory BarcodeResponse.fromJson(Map<String, dynamic> json) {
-    return BarcodeResponse(
+  factory ScannedItemData.fromJson(Map<String, dynamic> json) {
+    return ScannedItemData(
         json['barcode'],
         json['itemName'],
         json['locationName'],

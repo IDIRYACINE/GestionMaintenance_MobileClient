@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ftoast/ftoast.dart';
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/types.dart';
-import 'dart:developer' as dev;
 
-import 'package:gestion_maintenance_mobile/main.dart';
 
 abstract class Toaster {
   void show(String message);
