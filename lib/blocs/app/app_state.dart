@@ -12,7 +12,7 @@ class AppState {
       {int selectedIndex = 0, List<Widget>? pages, bool isScanning = false}) {
     _selectedIndex = selectedIndex;
     _pages =
-        pages ?? [const HomePage(), const ScannerPage(), const SettingsPage()];
+        pages ?? [const HomePage(testMode: true,), const ScannerPage(), const SettingsPage()];
     _isScanning = isScanning;
   }
 

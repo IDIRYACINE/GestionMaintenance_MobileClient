@@ -35,6 +35,7 @@ class BarcodeCenter implements BarcodeManger {
     _instance!._extensions.clear();
 
     bool playSound = state.playSoundSetting.enabled;
+
     if (playSound) {
       SoundPlayerExtension soundPlayer = SoundPlayerExtension.instance();
       soundPlayer.setAsset(onScanBarcodeSound);
@@ -86,13 +87,15 @@ class BarcodeCenter implements BarcodeManger {
 
     Barcode mBarcode = Barcode(barcode: barcode, scannedDate: DateTime.now());
 
-    WorkRequest submitScannedBarcode = RemoteServerRequestBuilder.sendScannedBarcode(
-        barcode: mBarcode, onResponse: _onBarcodeDataReceived);
+    WorkRequest submitScannedBarcode =
+        RemoteServerRequestBuilder.sendScannedBarcode(
+            barcode: mBarcode, onResponse: _onBarcodeDataReceived);
 
     ServicesCenter.instance().emitWorkRequest(submitScannedBarcode);
   }
 
   void _onBarcodeDataReceived(ScannedItemData data) {
+
     Record record =
         recordsBloc.state.records[RecordState.pendingItemsRecordIndex]!;
 
@@ -101,7 +104,8 @@ class BarcodeCenter implements BarcodeManger {
       name: data.itemName,
     );
 
-    UpdateBarcode event = UpdateBarcode(updatedBarcode, data.locationId,data.locationName);
+    UpdateBarcode event =
+        UpdateBarcode(updatedBarcode, data.locationId, data.locationName);
     recordsBloc.add(event);
   }
 }

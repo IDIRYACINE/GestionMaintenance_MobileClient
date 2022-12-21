@@ -55,11 +55,9 @@ class WorkResult {
   WorkResult(
       {required this.workId,
       required this.status,
-      required this.hasData,
       this.data});
 
   OperationStatus status;
-  bool hasData;
   int workId;
   dynamic data;
 

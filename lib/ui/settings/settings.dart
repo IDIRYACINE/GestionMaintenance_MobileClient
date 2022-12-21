@@ -46,40 +46,46 @@ class SettingsPage extends StatelessWidget {
     SettingsBloc settingsBlock =
         BlocProvider.of<SettingsBloc>(context, listen: true);
 
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          SettingsRow(
-              title: Localisations.of(context)!.playSoundOnScan,
-              isEnabled: settingsBlock.state.playSoundSetting.enabled,
-              icon: const Icon(playSoundIcon),
-              onTap: () {
-                togglePlaySound(settingsBlock);
-              }),
-          SettingsRow(
-              title: Localisations.of(context)!.continuousScan,
-              icon: const Icon(continousScanIcon),
-              isEnabled: settingsBlock.state.continousScanSetting.enabled,
-              onTap: () {
-                toggleContinousScan((settingsBlock));
-              }),
-          SettingsRow(
-              title: Localisations.of(context)!.vibrateOnScan,
-              icon: const Icon(vibrationIcon),
-              isEnabled: settingsBlock.state.vibrateOnScanSetting.enabled,
-              onTap: () {
-                toggleVibrateOnScan((settingsBlock));
-              }),
-          SettingsRow(
-              title: Localisations.of(context)!.cameraResolution,
-              description:
-                  settingsBlock.state.cameraResolutionSetting.value.name,
-              icon: const Icon(cameraIcon),
-              onTap: () {
-                setCameraResolution(context, settingsBlock);
-              }),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(Localisations.of(context)!.settings),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            SettingsRow(
+                title: Localisations.of(context)!.playSoundOnScan,
+                isEnabled: settingsBlock.state.playSoundSetting.enabled,
+                icon: const Icon(playSoundIcon),
+                onTap: () {
+                  togglePlaySound(settingsBlock);
+                }),
+            SettingsRow(
+                title: Localisations.of(context)!.continuousScan,
+                icon: const Icon(continousScanIcon),
+                isEnabled: settingsBlock.state.continousScanSetting.enabled,
+                onTap: () {
+                  toggleContinousScan((settingsBlock));
+                }),
+            SettingsRow(
+                title: Localisations.of(context)!.vibrateOnScan,
+                icon: const Icon(vibrationIcon),
+                isEnabled: settingsBlock.state.vibrateOnScanSetting.enabled,
+                onTap: () {
+                  toggleVibrateOnScan((settingsBlock));
+                }),
+            SettingsRow(
+                title: Localisations.of(context)!.cameraResolution,
+                description:
+                    settingsBlock.state.cameraResolutionSetting.value.name,
+                icon: const Icon(cameraIcon),
+                onTap: () {
+                  setCameraResolution(context, settingsBlock);
+                }),
+          ],
+        ),
       ),
     );
   }

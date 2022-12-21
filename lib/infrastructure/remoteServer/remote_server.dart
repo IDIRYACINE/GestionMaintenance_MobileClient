@@ -1,29 +1,38 @@
 import 'dart:convert';
-import 'package:gestion_maintenance_mobile/data/barcode.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/apis.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 import 'responses.dart';
 import 'package:http/http.dart' as http;
 
-class SendBarcodeTask extends ServiceTask<ScannedItemData> {
+class SendBarcodeTask extends ServiceTask<WorkResult> {
   late String _apiUrl;
 
   SendBarcodeTask(String serverUrl) {
-    _apiUrl = '$serverUrl/${Apis.postSingleBarcode}';
+    _apiUrl = '$serverUrl${Apis.submitRecord}';
   }
 
   @override
-  Future<ScannedItemData> execute(requestData) async {
-    Barcode barcode = requestData as Barcode;
-  
+  Future<WorkResult> execute(requestData) async {
+    int barcode = requestData[RequestDataKeys.barcode];
+    DateTime date = requestData[RequestDataKeys.scannedDate];
 
-    return http
-        .post(Uri.parse(_apiUrl), body: barcode.toJson())
-        .then((responseJson) {
+    final json = jsonEncode(
+        {"barcode": barcode.toString(), "scannedDate": date.toIso8601String()});
+
+    return http.post(
+      Uri.parse(_apiUrl),
+      body: json,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    ).then((responseJson) {
       ScannedItemData response =
           ScannedItemData.fromJson(jsonDecode(responseJson.body));
-      return response;
-    });
+
+      return WorkResult(
+          workId: -1, status: OperationStatus.success, data: response);
+    }).onError((error, stackTrace) => WorkResult(
+        workId: -1, status: OperationStatus.error, data: error.toString()));
   }
 }
 

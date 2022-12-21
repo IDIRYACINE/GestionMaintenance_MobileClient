@@ -52,7 +52,7 @@ class Record {
   LocationStatus state;
 
   Record(
-      {this.barcodes = const {},
+      {required this.barcodes ,
       required this.id,
       this.name,
       this.count = 0,

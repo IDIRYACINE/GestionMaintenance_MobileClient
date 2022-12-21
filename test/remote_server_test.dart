@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/responses.dart';

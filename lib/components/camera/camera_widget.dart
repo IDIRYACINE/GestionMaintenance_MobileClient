@@ -35,7 +35,8 @@ class CameraView extends StatelessWidget {
         } else {
           return Center(
             child: MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+              },
               child: Text(Localisations.of(context)!.requestCameraAccess),
             ),
           );
@@ -51,7 +52,7 @@ class CameraView extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isEmpty) {
-              return Text(Localisations.of(context)!.noCameraDetected);
+              return Center(child: Text(Localisations.of(context)!.noCameraDetected));
             }
 
             CameraDescription backCamera = snapshot.data!.first;
@@ -62,7 +63,7 @@ class CameraView extends StatelessWidget {
             );
             return _buildCameraPreview(cameraController, backCamera);
           } else {
-            return Text(Localisations.of(context)!.noCameraDetected);
+            return Center(child: Text(Localisations.of(context)!.noCameraDetected));
           }
         });
   }

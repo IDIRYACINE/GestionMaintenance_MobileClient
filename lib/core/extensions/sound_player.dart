@@ -10,27 +10,27 @@ class SoundPlayerExtension implements SoundPlayer, BarcodeCenterExtension {
   late AudioPlayer audioPlayer;
   static SoundPlayerExtension? _instance;
 
-  SoundPlayerExtension._(){
-   audioPlayer = AudioPlayer();
+  SoundPlayerExtension._() {
+    audioPlayer = AudioPlayer();
   }
 
   factory SoundPlayerExtension.instance() {
-    _instance??= SoundPlayerExtension._();
+    _instance ??= SoundPlayerExtension._();
     return _instance!;
   }
-  
+
   @override
   Future<void> playSound() async {
-    audioPlayer.play();
+    // audioPlayer.play(); TODO : fix this
   }
-  
+
   @override
   void onBarcode(String barcode) {
     playSound();
   }
-  
+
   @override
   Future<void> setAsset(String soundPath) async {
-    audioPlayer.setAsset(soundPath,preload: false);
+    audioPlayer.setAsset(soundPath, preload: false);
   }
 }

@@ -10,7 +10,7 @@ class ScannedItemData{
 
   factory ScannedItemData.fromJson(Map<String, dynamic> json) {
     return ScannedItemData(
-        json['barcode'],
+        json['barcode'] ,
         json['itemName'],
         json['locationName'],
         json['locationId']

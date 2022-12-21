@@ -6,7 +6,7 @@ class RecordState {
   final Map<int,Record> records;
 
   factory RecordState.initialState() {
-    Record pendingItems = Record(id: pendingItemsRecordIndex, name: 'Pending items');
+    Record pendingItems = Record(barcodes: {},id: pendingItemsRecordIndex, name: 'Pending items');
 
     return RecordState({pendingItemsRecordIndex : pendingItems});
   }

@@ -18,10 +18,13 @@ class _ScannedItemsScreenState extends State<ScannedItemsScreen> {
 
     if (barcodeKeys.isEmpty) {
       return Scaffold(
+        appBar: AppBar(),
         body: Center(child: Text(Localisations.of(context)!.noItemsScanned)),
       );
     }
+
     return Scaffold(
+      appBar: AppBar(),
       body: ListView.builder(
           itemBuilder: (context, index) {
             int barcode = barcodeKeys[index];

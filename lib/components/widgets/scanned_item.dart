@@ -29,10 +29,11 @@ class _ScannedItemState extends State<ScannedItem> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Card(
       child: ListTile(
         title: BlocBuilder<RecordsBloc, RecordState>(
-            buildWhen: (previous, current) =>
+            buildWhen: (previous, current) => 
                 previous.records[widget.locationId]!.barcodes[widget.barcode]!
                     .state !=
                 current
@@ -76,6 +77,8 @@ class _ScannedLocationState extends State<ScannedLocation> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RecordsBloc, RecordState>(builder: (context, state) {
+       
+
       Record record = state.records[widget.id]!;
       return InkWell(
         onTap: () => displayScannedItemsList(state.records[widget.id]!),

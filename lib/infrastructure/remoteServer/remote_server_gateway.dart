@@ -17,13 +17,18 @@ class RemoteServerGateway extends ServiceHandler {
 
   @override
   Future<dynamic> handleMessage(RequestData message) async {
-    return  _services[message.task.index].execute(message.data).then((result) {
+    return _services[message.task.index].execute(message.data).then((value) {
+      WorkResult result = value as WorkResult;
+
+      result.workId = message.messageId;
+
       return result;
     });
   }
 
   void _registerTasks() {
-    _services[RemoteServerTasks.sendBarcode.index] = SendBarcodeTask(_serverUrl);
+    _services[RemoteServerTasks.sendBarcode.index] =
+        SendBarcodeTask(_serverUrl);
   }
 
   void _initialiseTaskSlots() {

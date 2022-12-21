@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_events.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_state.dart';
@@ -46,20 +48,28 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
   Future<void> _updateBarcode(
       UpdateBarcode event, Emitter<RecordState> emit) async {
     Map<int, Record> records = Map.from(state.records);
+    late Record record;
 
     if (records.containsKey(event.locationId) == false) {
-      Record record = Record(
+      record = Record(
+          barcodes: {},
           id: event.locationId,
           name: event.locationName,
           count: 1,
           state: LocationStatus.done);
-      if (record.state == LocationStatus.done) return;
+      
+      records[event.locationId] = record;
+    } else {
+      record = records[event.locationId]!;
     }
 
-    records[RecordState.pendingItemsRecordIndex]!
-        .barcodes
-        .remove(event.barcode.barcode);
-    records[event.locationId]!.barcodes[event.barcode.barcode] = event.barcode;
+    Record pendingItemsRecod = records[RecordState.pendingItemsRecordIndex]!;
+    pendingItemsRecod.barcodes.remove(event.barcode.barcode);
+    pendingItemsRecod.count = pendingItemsRecod.count - 1;
+
+    record.barcodes[event.barcode.barcode] = event.barcode;
+    record.count = pendingItemsRecod.count + 1;
+
 
     emit(RecordState(records));
   }
