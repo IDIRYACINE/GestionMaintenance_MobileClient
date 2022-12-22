@@ -26,6 +26,7 @@ dependencies:
   bloc: ^8.1.0
   just_audio: ^0.9.29
   ftoast: ^2.0.0
+  timezone: ^0.9.0
 
 dev_dependencies:
   flutter_test:

@@ -39,6 +39,7 @@ class ToasterExtension implements Toaster, BarcodeCenterExtension {
 
 }
 
+// ignore: unused_element
 class _ToastWidget extends StatelessWidget {
   final String message;
   const _ToastWidget(this.message);

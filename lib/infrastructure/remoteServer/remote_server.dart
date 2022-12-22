@@ -3,6 +3,7 @@ import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/apis.dart
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 import 'responses.dart';
 import 'package:http/http.dart' as http;
+import 'package:timezone/timezone.dart';
 
 class SendBarcodeTask extends ServiceTask<WorkResult> {
   late String _apiUrl;
@@ -15,6 +16,8 @@ class SendBarcodeTask extends ServiceTask<WorkResult> {
   Future<WorkResult> execute(requestData) async {
     int barcode = requestData[RequestDataKeys.barcode];
     DateTime date = requestData[RequestDataKeys.scannedDate];
+
+    
 
     final json = jsonEncode(
         {"barcode": barcode.toString(), "scannedDate": date.toIso8601String()});

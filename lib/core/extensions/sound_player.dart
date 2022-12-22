@@ -21,7 +21,8 @@ class SoundPlayerExtension implements SoundPlayer, BarcodeCenterExtension {
 
   @override
   Future<void> playSound() async {
-    // audioPlayer.play(); TODO : fix this
+    
+    // audioPlayer.play(); TODO uncomment this line 
   }
 
   @override
