@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gestion_maintenance_mobile/blocs/app/bloc.dart';
-import 'package:gestion_maintenance_mobile/blocs/app/event.dart';
-import 'package:gestion_maintenance_mobile/blocs/app/state.dart';
 import 'package:gestion_maintenance_mobile/blocs/settings/settings_bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/settings/settings_state.dart';
 import 'package:gestion_maintenance_mobile/components/camera/camera_widget.dart';
@@ -12,16 +9,21 @@ import 'package:gestion_maintenance_mobile/core/scanner/scanner.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 import 'package:gestion_maintenance_mobile/features/themes/themes.dart';
 
-class ScannerPage extends StatelessWidget {
+class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});
+
+
+  @override
+  State<ScannerPage> createState() => _ScannerPageState();
+}
+
+class _ScannerPageState extends State<ScannerPage> {
 
   @override
   Widget build(BuildContext context) {
     ToasterExtension.instance().setBuildContext(context);
 
-    Scanner scanner = Scanner(toggleScanState: (bool isScanning) {
-      context.read<AppBloc>().add(ToggleScanState(isScanning));
-    });
+    Scanner scanner = Scanner();
 
     void onScan(bool isScanning) {
       scanner.toggleScan(isScanning);
@@ -41,9 +43,10 @@ class ScannerPage extends StatelessWidget {
         flashWidget: const _FlashWidget(),
         scanWidget: ScanButton(
           onScan: onScan,
+          registerScanCallback: scanner.scanButtonStatusSetter,
         ),
       ),
-    ));
+    ),);
   }
 }
 
@@ -60,33 +63,41 @@ class _FlashWidget extends StatelessWidget {
 }
 
 class ScanButton extends StatefulWidget {
-  const ScanButton({super.key, required this.onScan});
+  const ScanButton(
+      {super.key, required this.onScan, required this.registerScanCallback});
 
   final Callback<bool> onScan;
+  final void Function(void Function(bool isScanning) callback)
+      registerScanCallback;
 
   @override
   State<ScanButton> createState() => _ScanButtonState();
 }
 
 class _ScanButtonState extends State<ScanButton> {
+  bool isScanning = false;
+
+  @override
+  void initState() {
+    widget.registerScanCallback((bool isScanning) {
+      setState(() {
+        this.isScanning = isScanning;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppBloc, AppState>(buildWhen: (oldState, newState) {
-      return oldState.isScanning != newState.isScanning;
-    }, builder: (context, state) {
-      bool isScanning = state.isScanning;
+    Icon icon =
+        isScanning ? const Icon(Icons.stop) : const Icon(Icons.qr_code_scanner);
 
-      Icon icon = isScanning
-          ? const Icon(Icons.stop)
-          : const Icon(Icons.qr_code_scanner);
-
-      return MaterialButton(
-        color: AppColors.transparentWhite,
-        onPressed: () {
-          widget.onScan(isScanning);
-        },
-        child: icon,
-      );
-    });
+    return MaterialButton(
+      color: AppColors.transparentWhite,
+      onPressed: () {
+        widget.onScan(isScanning);
+      },
+      child: icon,
+    );
   }
 }

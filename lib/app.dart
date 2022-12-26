@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gestion_maintenance_mobile/blocs/app/app_bloc.dart';
+import 'package:gestion_maintenance_mobile/core/navigation/router.dart';
 import 'package:gestion_maintenance_mobile/features/login/state/auth_block.dart';
 
 import 'components/navigation/bottom_navigation.dart';
@@ -14,16 +14,16 @@ class App extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthenticaionState>(
         builder: (BuildContext context, authState) {
       if (authState.isAuthenticated) {
-        return BlocBuilder<AppBloc, AppState>(builder: (context, state) {
-          return Scaffold(
-            body: state.selectedPage,
-            bottomNavigationBar: BottomNavigation(
-              initialIndex: state.selectedIndex,
-              onTap: (index) =>
-                  context.read<AppBloc>().add(NavigateByIndex(index)),
-            ),
-          );
-        });
+        return ValueListenableBuilder<int>(
+            valueListenable: AppRouter.bottomBarIndex,
+            builder: (context, index, child) {
+              return Scaffold(
+                body: AppRouter.selectedPage,
+                bottomNavigationBar: BottomNavigation(
+                    initialIndex: AppRouter.bottomBarIndex.value,
+                    onTap: AppRouter.setBottomBarIndex),
+              );
+            });
       }
 
       return const LoginView();

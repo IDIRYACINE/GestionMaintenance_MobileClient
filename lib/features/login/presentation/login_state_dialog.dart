@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gestion_maintenance_mobile/core/navigation/navigator.dart';
 import 'package:gestion_maintenance_mobile/features/login/state/auth_block.dart';
 import 'package:gestion_maintenance_mobile/localisation/app_localisations.dart';
 
-class LoginDialog extends StatefulWidget {
-  const LoginDialog({super.key});
+class LoginStatusDialog extends StatefulWidget {
+  const LoginStatusDialog({super.key});
 
   @override
-  State<LoginDialog> createState() => _LoginDialogState();
+  State<LoginStatusDialog> createState() => _LoginStatusDialogState();
 }
 
-class _LoginDialogState extends State<LoginDialog> {
+class _LoginStatusDialogState extends State<LoginStatusDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       content: BlocBuilder<AuthBloc, AuthenticaionState>(builder: (ctx, state) {
-        if (!state.isAuthenticated) {
+        print("state: ${state.errorOccured}");
+        if (!state.isAuthenticated && !state.errorOccured) {
           return const Center(child: CircularProgressIndicator());
         }
 
@@ -24,7 +26,7 @@ class _LoginDialogState extends State<LoginDialog> {
               child: Text(Localisations.of(context)!.errorAuthFailed));
         }
 
-        Navigator.of(context).pop();
+        AppNavigator.pop();
         return const SizedBox();
       }),
     );

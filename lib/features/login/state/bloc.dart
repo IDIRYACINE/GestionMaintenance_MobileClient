@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gestion_maintenance_mobile/core/navigation/navigator.dart';
+import 'package:gestion_maintenance_mobile/features/login/presentation/login_state_dialog.dart';
 import 'package:gestion_maintenance_mobile/features/login/state/auth_block.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/remote_server_requests.dart';
@@ -15,6 +17,8 @@ class AuthBloc extends Bloc<AuthEvents, AuthenticaionState> {
 
   FutureOr<void> _onLoginEvent(
       LoginEvent event, Emitter<AuthenticaionState> emit) {
+    AppNavigator.displayDialog(const LoginStatusDialog());
+
     WorkRequest loginRequest = RemoteServerRequestBuilder.validateLogin(
         username: event.username,
         password: event.password,
@@ -38,7 +42,4 @@ class AuthBloc extends Bloc<AuthEvents, AuthenticaionState> {
       ));
     }
   }
-
-
-  
 }

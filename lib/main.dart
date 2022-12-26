@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_maintenance_mobile/app.dart';
-import 'package:gestion_maintenance_mobile/blocs/app/bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_block.dart';
 import 'package:gestion_maintenance_mobile/blocs/settings/settings_state.dart';
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/barcodes_center.dart';
+import 'package:gestion_maintenance_mobile/core/navigation/navigator.dart';
 import 'package:gestion_maintenance_mobile/features/login/state/auth_block.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
 import 'package:gestion_maintenance_mobile/localisation/app_localisations.dart';
@@ -16,7 +16,6 @@ void main() {
 
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (_) => SettingsBloc()),
-    BlocProvider(create: (_) => AppBloc()),
     BlocProvider(create: (_) => RecordsBloc()),
     BlocProvider(create: (_) => AuthBloc())
   ], child: const MyApp()));
@@ -38,6 +37,7 @@ class MyApp extends StatelessWidget {
       title: appName,
       localizationsDelegates: Localisations.localizationsDelegates,
       supportedLocales: Localisations.supportedLocales,
+      navigatorKey: AppNavigator.key,
       home: FutureBuilder<void>(
           future: initApp(context),
           builder: (builderContext, snpashot) {

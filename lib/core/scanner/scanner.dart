@@ -6,9 +6,8 @@ import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dar
 import 'google_analyser.dart';
 
 class Scanner {
-  Scanner({required Callback<bool> toggleScanState}) {
+  Scanner() {
     _analyser = MlkitScanner();
-    _toggleScanState = toggleScanState;
   }
 
   late Callback<bool> _toggleScanState;
@@ -59,5 +58,9 @@ class Scanner {
 
   bool _isValidBarcode(String barcode) {
     return int.tryParse(barcode) != null;
+  }
+
+  void scanButtonStatusSetter(Callback<bool> callback) {
+    _toggleScanState = callback;
   }
 }
