@@ -22,5 +22,7 @@
     "password" : "Password",
     "loading" : "Loading",
     "itemsCount" : "Items count",
-    "noItemsScanned" : "No items scanned"
+    "noItemsScanned" : "No items scanned",
+    "errorEmptyField" : "This field is required",
+    "errorAuthFailed" : "Authentication failed"
 }

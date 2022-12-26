@@ -23,6 +23,26 @@ abstract class RemoteServerRequestBuilder {
         hasCallback: true,
         callback: onResponse);
   }
+
+  static WorkRequest validateLogin(
+      {required String username,
+      required String password,
+      required Callback<LoginResponse> onResponse}) {
+    Map<RequestDataKeys, dynamic> data = {
+      RequestDataKeys.username: username,
+      RequestDataKeys.password: password
+    };
+
+    Task task = Task(RemoteServerTasks.authenticate.index,
+        RemoteServerTasks.authenticate.name);
+
+    return WorkRequest<LoginResponse>(
+        service: AppServices.remoteServer,
+        task: task,
+        data: data,
+        hasCallback: true,
+        callback: onResponse);
+  }
 }
 
 class EmptyTask extends ServiceTask {

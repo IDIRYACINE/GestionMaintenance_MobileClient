@@ -7,7 +7,7 @@ import 'package:gestion_maintenance_mobile/blocs/settings/settings_state.dart';
 import 'package:gestion_maintenance_mobile/components/camera/camera_widget.dart';
 import 'package:gestion_maintenance_mobile/components/widgets/custom_rows.dart';
 import 'package:gestion_maintenance_mobile/localisation/app_localisations.dart';
-import 'package:gestion_maintenance_mobile/ui/themes/constants.dart';
+import 'package:gestion_maintenance_mobile/features/themes/constants.dart';
 import 'dart:developer' as dev;
 
 class SettingsPage extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 const appName = "Embag GMAO";
 
-const loginLogoAsset = "/images/logo.png";
+const loginLogoAsset = "assets/images/logo.png";
 
 const scanLabel = "Scan";
 const settingsLabel = "Settings";

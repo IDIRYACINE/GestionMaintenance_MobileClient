@@ -1,7 +1,7 @@
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/barcodes_center.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/sound_player.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/vibrator.dart';
-import 'package:gestion_maintenance_mobile/ui/themes/constants.dart';
+import 'package:gestion_maintenance_mobile/features/themes/constants.dart';
 
 import 'settings_event.dart';
 import 'settings_state.dart';

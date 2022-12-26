@@ -4,7 +4,7 @@ import 'package:gestion_maintenance_mobile/blocs/records/records_block.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_state.dart';
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
 import 'package:gestion_maintenance_mobile/localisation/app_localisations.dart';
-import 'package:gestion_maintenance_mobile/ui/home/scanned_items.dart';
+import 'package:gestion_maintenance_mobile/features/home/scanned_items.dart';
 
 enum ScannedItemState {
   pending,

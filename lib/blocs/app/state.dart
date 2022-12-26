@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_maintenance_mobile/ui/home/home.dart';
-import 'package:gestion_maintenance_mobile/ui/scanner/scanner.dart';
-import 'package:gestion_maintenance_mobile/ui/settings/settings.dart';
+import 'package:gestion_maintenance_mobile/features/home/home.dart';
+import 'package:gestion_maintenance_mobile/features/scanner/scanner.dart';
+import 'package:gestion_maintenance_mobile/features/settings/settings.dart';
 
 class AppState {
   late bool _isScanning;

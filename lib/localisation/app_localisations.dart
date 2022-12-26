@@ -228,6 +228,18 @@ abstract class Localisations {
   /// In en, this message translates to:
   /// **'No items scanned'**
   String get noItemsScanned;
+
+  /// No description provided for @errorEmptyField.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get errorEmptyField;
+
+  /// No description provided for @errorAuthFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication failed'**
+  String get errorAuthFailed;
 }
 
 class _LocalisationsDelegate extends LocalizationsDelegate<Localisations> {

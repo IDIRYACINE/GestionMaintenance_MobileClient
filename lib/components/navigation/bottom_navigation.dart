@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_maintenance_mobile/ui/themes/constants.dart';
+import 'package:gestion_maintenance_mobile/features/themes/constants.dart';
 
 class BottomNavigation extends StatefulWidget {
   final int initialIndex;

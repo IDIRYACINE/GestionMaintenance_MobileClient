@@ -72,4 +72,10 @@ class LocalisationsEn extends Localisations {
 
   @override
   String get noItemsScanned => 'No items scanned';
+
+  @override
+  String get errorEmptyField => 'This field is required';
+
+  @override
+  String get errorAuthFailed => 'Authentication failed';
 }

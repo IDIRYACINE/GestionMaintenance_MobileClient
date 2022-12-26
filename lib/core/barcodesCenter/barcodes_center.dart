@@ -11,7 +11,7 @@ import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/responses
 import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/remote_server_requests.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
-import 'package:gestion_maintenance_mobile/ui/themes/constants.dart';
+import 'package:gestion_maintenance_mobile/features/themes/constants.dart';
 import 'types.dart';
 
 class BarcodeCenter implements BarcodeManger {
@@ -99,7 +99,10 @@ class BarcodeCenter implements BarcodeManger {
     Record record =
         recordsBloc.state.records[RecordState.pendingItemsRecordIndex]!;
 
-    Barcode updatedBarcode = record.barcodes[data.barcode]!.copyWith(
+    Barcode? updatedBarcode = record.barcodes[data.barcode];
+    if(updatedBarcode == null) return;
+
+    updatedBarcode = updatedBarcode.copyWith(
       state: BarcodeStates.loaded,
       name: data.itemName,
     );

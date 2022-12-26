@@ -97,7 +97,9 @@ enum RequestDataKeys{
   scannedDate,
   barcodes,
   workerId,
-  workerName
+  workerName,
+  username,
+  password,
 }
 
 enum OperationStatus{

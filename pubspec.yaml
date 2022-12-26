@@ -46,3 +46,4 @@ flutter:
   assets:
     - assets/localisation/
     - assets/audios/
+    - assets/images/

@@ -29,6 +29,9 @@ class RemoteServerGateway extends ServiceHandler {
   void _registerTasks() {
     _services[RemoteServerTasks.sendBarcode.index] =
         SendBarcodeTask(_serverUrl);
+
+    _services[RemoteServerTasks.authenticate.index] =
+        AuthenticateTask(_serverUrl);
   }
 
   void _initialiseTaskSlots() {

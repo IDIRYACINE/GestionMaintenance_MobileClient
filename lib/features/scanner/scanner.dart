@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gestion_maintenance_mobile/blocs/app/app_bloc.dart';
-import 'package:gestion_maintenance_mobile/blocs/app/app_event.dart';
-import 'package:gestion_maintenance_mobile/blocs/app/app_state.dart';
+import 'package:gestion_maintenance_mobile/blocs/app/bloc.dart';
+import 'package:gestion_maintenance_mobile/blocs/app/event.dart';
+import 'package:gestion_maintenance_mobile/blocs/app/state.dart';
 import 'package:gestion_maintenance_mobile/blocs/settings/settings_bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/settings/settings_state.dart';
 import 'package:gestion_maintenance_mobile/components/camera/camera_widget.dart';
@@ -10,7 +10,7 @@ import 'package:gestion_maintenance_mobile/components/camera/types.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/toaster.dart';
 import 'package:gestion_maintenance_mobile/core/scanner/scanner.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
-import 'package:gestion_maintenance_mobile/ui/themes/themes.dart';
+import 'package:gestion_maintenance_mobile/features/themes/themes.dart';
 
 class ScannerPage extends StatelessWidget {
   const ScannerPage({super.key});
