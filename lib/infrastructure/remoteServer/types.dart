@@ -6,14 +6,6 @@ import 'responses.dart';
 
 typedef AppJson = Map<String, dynamic>;
 
-abstract class Database{
-  Future<bool> open({required String username ,required String password});
-  Future<void> close();
-
-  Future<void> insertBarcode({required Barcode barcode});
-  Future<void> insertRecord({required Record record});
-  Future<Record> loadRecord();
-}
 
 abstract class RemoteServer{
   Future<bool> authenticate({required String username ,required  String password});

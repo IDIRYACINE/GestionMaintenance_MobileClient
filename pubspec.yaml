@@ -22,11 +22,10 @@ dependencies:
   google_mlkit_barcode_scanning: ^0.4.0
   flutter_vibrate: ^1.3.0
   flutter_bloc: ^8.1.1
-  rxdart: ^0.27.5
   bloc: ^8.1.0
   just_audio: ^0.9.29
   ftoast: ^2.0.0
-  timezone: ^0.9.0
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:
