@@ -32,14 +32,13 @@ class AuthBloc extends Bloc<AuthEvents, AuthenticaionState> {
 
   FutureOr<void> _onReceiveLoginResponseEvent(
       ReceiveLoginResponseEvent event, Emitter<AuthenticaionState> emit) {
-    if (event.response.authenticated) {
-      emit(state.copyWith(
-        isAuthenticated: event.response.authenticated,
-        workerId: event.response.workerId,
-        workerDepartmentId: event.response.departement,
-        workerName: event.response.workerName,
-        errorOccured: event.response.errorOccured,
-      ));
-    }
+    emit(state.copyWith(
+      isAuthenticated: event.response.authenticated,
+      workerId: event.response.workerId,
+      workerDepartmentIds: event.response.departement,
+      groupId: event.response.groupId,
+      workerName: event.response.workerName,
+      errorOccured: event.response.errorOccured,
+    ));
   }
 }

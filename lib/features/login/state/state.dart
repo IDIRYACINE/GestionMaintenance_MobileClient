@@ -5,29 +5,34 @@ class AuthenticaionState {
 
   final String workerName;
 
-  final int workerDepartmentId;
+  final int groupId;
+
+  final List<int> workerDepartmentIds;
 
   final bool errorOccured;
 
-  AuthenticaionState( 
+  AuthenticaionState(
       {required this.isAuthenticated,
       required this.workerId,
       required this.workerName,
+      required this.groupId,
       this.errorOccured = false,
-      required this.workerDepartmentId});
+      required this.workerDepartmentIds});
 
   AuthenticaionState copyWith(
       {bool? isAuthenticated,
       int? workerId,
+      int? groupId,
       String? workerName,
       bool? errorOccured,
-      int? workerDepartmentId}) {
+      List<int>? workerDepartmentIds}) {
     return AuthenticaionState(
         isAuthenticated: isAuthenticated ?? this.isAuthenticated,
         workerId: workerId ?? this.workerId,
         workerName: workerName ?? this.workerName,
         errorOccured: errorOccured ?? this.errorOccured,
-        workerDepartmentId: workerDepartmentId ?? this.workerDepartmentId);
+        groupId: groupId ?? this.groupId,
+        workerDepartmentIds: workerDepartmentIds ?? this.workerDepartmentIds);
   }
 
   static AuthenticaionState initialState() {
@@ -35,6 +40,7 @@ class AuthenticaionState {
         isAuthenticated: false,
         workerId: -1,
         workerName: "",
-        workerDepartmentId: -1);
+        workerDepartmentIds: [],
+        groupId: -1);
   }
 }

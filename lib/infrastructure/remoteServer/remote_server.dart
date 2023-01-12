@@ -54,9 +54,11 @@ class AuthenticateTask extends ServiceTask<WorkResult> {
         'Content-Type': 'application/json',
       },
     ).then((responseJson) {
+            print(responseJson.body);
 
       LoginResponse response =
           LoginResponse.fromJson(jsonDecode(responseJson.body));
+      
 
       return WorkResult(
           workId: -1, status: OperationStatus.success, data: response);

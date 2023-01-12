@@ -1,3 +1,4 @@
+
 class ScannedItemData {
   final int barcode;
   final String itemName;
@@ -16,23 +17,35 @@ class ScannedItemData {
 class LoginResponse {
   final bool authenticated;
   final int? workerId;
+  final int? groupId;
   final String? workerName;
-  final int? departement;
+  final List<int>? departement;
   final bool errorOccured;
 
   LoginResponse(
       {required this.authenticated,
       this.workerId,
+      this.groupId,
       this.workerName,
       this.departement,
       this.errorOccured = false});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    return LoginResponse(
-        authenticated: json['authenticated'],
-        workerId: json['workerId'],
-        workerName: json['workerName'],
-        departement: json['departement'],
-        errorOccured: json['errorOccured'] ?? false);
+    LoginResponse loginResponse;
+    try {
+      List<int> permissions = List.from(json['departementId']?? []);
+
+      loginResponse = LoginResponse(
+          authenticated: json['authenticated'],
+          workerId: json['workerId'],
+          workerName: json['workerName'],
+          departement: permissions,
+          groupId: json['groupId'],
+          errorOccured: json['errorOccured'] ?? false);
+    } catch (e) {
+      loginResponse = LoginResponse(authenticated: false, errorOccured: true);
+    }
+
+    return loginResponse;
   }
 }

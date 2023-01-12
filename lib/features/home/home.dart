@@ -40,14 +40,12 @@ class _MimickScanButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int counter = 0;
 
     return FloatingActionButton(
       onPressed: () {
         ToasterExtension.instance().setBuildContext(context);
 
-        BarcodeCenter.instance().emitBarcode(counter.toString());
-        counter++;
+        BarcodeCenter.instance().emitBarcode("91080687");
       },
       child: const Icon(Icons.add),
     );

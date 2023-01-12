@@ -15,20 +15,21 @@ class _LoginStatusDialogState extends State<LoginStatusDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: BlocBuilder<AuthBloc, AuthenticaionState>(builder: (ctx, state) {
-        print("state: ${state.errorOccured}");
+      content: ConstrainedBox(
+    constraints: const BoxConstraints(maxHeight: 100),
+    child: BlocBuilder<AuthBloc, AuthenticaionState>(builder: (ctx, state) {
         if (!state.isAuthenticated && !state.errorOccured) {
           return const Center(child: CircularProgressIndicator());
         }
-
+    
         if (state.errorOccured) {
           return Center(
               child: Text(Localisations.of(context)!.errorAuthFailed));
         }
-
+    
         AppNavigator.pop();
         return const SizedBox();
-      }),
+      }),),
     );
   }
 }
