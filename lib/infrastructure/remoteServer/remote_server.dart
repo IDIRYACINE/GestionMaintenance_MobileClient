@@ -14,7 +14,13 @@ class SendBarcodeTask extends ServiceTask<WorkResult> {
     DateTime date = requestData[RequestDataKeys.scannedDate];
 
     final json = jsonEncode(
-        {"barcode": barcode.toString(), "scannedDate": date.toIso8601String()});
+        {RequestDataKeys.barcode.name : barcode.toString(),
+        RequestDataKeys.scannedDate.name: date.toIso8601String(),
+        RequestDataKeys.workerId.name: requestData[RequestDataKeys.workerId],
+        RequestDataKeys.workerName.name : requestData[RequestDataKeys.workerName],
+        RequestDataKeys.permissions.name : requestData[RequestDataKeys.permissions],
+        RequestDataKeys.groupId.name : requestData[RequestDataKeys.groupId]
+        });
 
     return http.post(
       Uri.http(Apis.serverUrl,Apis.submitRecord),
@@ -54,7 +60,6 @@ class AuthenticateTask extends ServiceTask<WorkResult> {
         'Content-Type': 'application/json',
       },
     ).then((responseJson) {
-            print(responseJson.body);
 
       LoginResponse response =
           LoginResponse.fromJson(jsonDecode(responseJson.body));

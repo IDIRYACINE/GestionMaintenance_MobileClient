@@ -99,7 +99,7 @@ enum RequestDataKeys{
   workerId,
   workerName,
   username,
-  password,
+  password, permissions, groupId,
 }
 
 enum OperationStatus{

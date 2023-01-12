@@ -7,6 +7,8 @@ import 'package:gestion_maintenance_mobile/core/extensions/sound_player.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/toaster.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/vibrator.dart';
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
+import 'package:gestion_maintenance_mobile/data/worker.dart';
+import 'package:gestion_maintenance_mobile/features/login/state/bloc.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/responses.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/remote_server_requests.dart';
@@ -16,17 +18,23 @@ import 'types.dart';
 
 class BarcodeCenter implements BarcodeManger {
   RecordsBloc recordsBloc;
-  BarcodeCenter._(this.recordsBloc);
+  AuthBloc authBloc;
+  BarcodeCenter._(this.recordsBloc,this.authBloc);
 
   static BarcodeCenter? _instance;
 
-  factory BarcodeCenter.instance({RecordsBloc? recordsBloc}) {
+  factory BarcodeCenter.instance({RecordsBloc? recordsBloc,AuthBloc? authBloc}) {
     assert(
         (recordsBloc != null && _instance == null) ||
             (recordsBloc == null && _instance != null),
         "First call detected  : You must provide a recordsBloc to initialize the BarcodeCenter ");
+    assert(
+      (authBloc != null && _instance == null) ||
+        (authBloc == null && _instance != null),
+      "First call detected  : You must provide a authBloc to initialize the BarcodeCenter ");
 
-    _instance ??= BarcodeCenter._(recordsBloc!);
+
+    _instance ??= BarcodeCenter._(recordsBloc!,authBloc!);
     return _instance!;
   }
 
@@ -86,10 +94,19 @@ class BarcodeCenter implements BarcodeManger {
     recordsBloc.add(AddBarcode(barcode));
 
     Barcode mBarcode = Barcode(barcode: barcode, scannedDate: DateTime.now());
+    
+    Worker worker = Worker(
+      workerId: authBloc.state.workerId,
+      workerName: authBloc.state.workerName,
+      groupId: authBloc.state.groupId,
+      permissions: authBloc.state.workerDepartmentIds
+    );
 
     WorkRequest submitScannedBarcode =
         RemoteServerRequestBuilder.sendScannedBarcode(
-            barcode: mBarcode, onResponse: _onBarcodeDataReceived);
+            barcode: mBarcode, 
+            worker: worker,
+            onResponse: _onBarcodeDataReceived);
 
     ServicesCenter.instance().emitWorkRequest(submitScannedBarcode);
   }

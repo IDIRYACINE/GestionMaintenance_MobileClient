@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   Future<void> initApp(BuildContext appContext) async {
-    BarcodeCenter.instance(recordsBloc: appContext.read<RecordsBloc>());
+    BarcodeCenter.instance(recordsBloc: appContext.read<RecordsBloc>(), authBloc: appContext.read<AuthBloc>());
     BarcodeCenter.initExtensions(SettingsState.initialState());
     await Future.delayed(const Duration(seconds: 5));
   }

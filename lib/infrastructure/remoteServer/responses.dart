@@ -1,4 +1,3 @@
-
 class ScannedItemData {
   final int barcode;
   final String itemName;
@@ -9,8 +8,16 @@ class ScannedItemData {
       this.barcode, this.itemName, this.locationName, this.locationId);
 
   factory ScannedItemData.fromJson(Map<String, dynamic> json) {
-    return ScannedItemData(json['barcode'], json['itemName'],
-        json['locationName'], json['locationId']);
+    ScannedItemData data;
+    try {
+
+      data = ScannedItemData(json['barcode'], json['itemName'],
+          json['locationName'], json['locationId']);
+    } catch (e) {
+      data = ScannedItemData(-1, '', '', -1);
+    }
+
+    return data;
   }
 }
 
@@ -33,7 +40,7 @@ class LoginResponse {
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     LoginResponse loginResponse;
     try {
-      List<int> permissions = List.from(json['departementId']?? []);
+      List<int> permissions = List.from(json['departementId'] ?? []);
 
       loginResponse = LoginResponse(
           authenticated: json['authenticated'],

@@ -1,4 +1,5 @@
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
+import 'package:gestion_maintenance_mobile/data/worker.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/forwarder.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/responses.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/types.dart';
@@ -7,10 +8,16 @@ import 'types.dart';
 abstract class RemoteServerRequestBuilder {
   static WorkRequest sendScannedBarcode(
       {required Barcode barcode,
+       required Worker worker,
       required Callback<ScannedItemData> onResponse}) {
+
     Map<RequestDataKeys, dynamic> data = {
       RequestDataKeys.barcode: barcode.barcode,
-      RequestDataKeys.scannedDate: barcode.scannedDate
+      RequestDataKeys.scannedDate: barcode.scannedDate,
+      RequestDataKeys.workerId: worker.workerId,
+      RequestDataKeys.workerName: worker.workerName,
+      RequestDataKeys.permissions: worker.permissions,
+      RequestDataKeys.groupId: worker.groupId,
     };
 
     Task task = Task(RemoteServerTasks.sendBarcode.index,
