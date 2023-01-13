@@ -1,8 +1,10 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_events.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_state.dart';
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/workRequests/local_database_request.dart';
+import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 
 class RecordsBloc extends Bloc<RecordEvent, RecordState> {
   RecordsBloc() : super(RecordState.initialState()) {
@@ -34,8 +36,12 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
 
     Map<int, Barcode> newBarcodes =
         Map.from(records[RecordState.pendingItemsRecordIndex]!.barcodes);
-    newBarcodes[event.barcode] =
+
+    Barcode barcode =
         Barcode(barcode: event.barcode, scannedDate: DateTime.now());
+    _addBarcodeToWaitingQueue(barcode);
+
+    newBarcodes[event.barcode] = barcode;
 
     Record oldRecord = records[RecordState.pendingItemsRecordIndex]!;
     records[RecordState.pendingItemsRecordIndex] =
@@ -56,8 +62,10 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
           name: event.locationName,
           count: 1,
           state: LocationStatus.done);
-      
+
       records[event.locationId] = record;
+
+      _registerNewDesignation(record);
     } else {
       record = records[event.locationId]!;
     }
@@ -69,7 +77,42 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
     record.barcodes[event.barcode.barcode] = event.barcode;
     record.count = pendingItemsRecod.count + 1;
 
+    _registerScannedBarcode(event.barcode, record);
 
     emit(RecordState(records));
+  }
+
+  void _addBarcodeToWaitingQueue(Barcode barcode) {
+    WorkRequest<void> addBarcodeToQueue =
+        LocalDatabaseRequestBuilder.insertBarcodeIntoWaitingQueue(
+            barcode: barcode);
+
+    ServicesCenter.instance().emitWorkRequest(addBarcodeToQueue);
+  }
+
+  void _registerNewDesignation(Record record) {
+    WorkRequest<void> registerDesignation =
+        LocalDatabaseRequestBuilder.insertDesignation(record: record);
+
+    ServicesCenter.instance().emitWorkRequest(registerDesignation);
+  }
+
+  void _registerScannedBarcode(Barcode barcode, Record record) {
+    final servicesCenter = ServicesCenter.instance();
+
+    WorkRequest<void> removeBarcodeFromQueue =
+        LocalDatabaseRequestBuilder.deleteBarcodeFromWaitingQueue(
+            barcode: barcode);
+
+    servicesCenter.emitWorkRequest(removeBarcodeFromQueue);
+
+    // this will be sent through an isolate port , which passes by value for all fields ! not by ref
+    Record tempRecord = record.copyWith(barcodes: {barcode.barcode: barcode});
+
+    WorkRequest<void> registerScannedBarcode =
+        LocalDatabaseRequestBuilder.insertBarcodeIntoScanned(
+            barcode: barcode, record: tempRecord);
+
+    servicesCenter.emitWorkRequest(registerScannedBarcode);
   }
 }

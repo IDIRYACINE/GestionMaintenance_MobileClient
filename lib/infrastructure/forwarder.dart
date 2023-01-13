@@ -1,6 +1,5 @@
 import 'dart:isolate';
 
-import 'package:gestion_maintenance_mobile/infrastructure/workRequests/remote_server_requests.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 
 import 'remoteServer/remote_server_gateway.dart';

@@ -1,4 +1,4 @@
-
+import 'package:gestion_maintenance_mobile/infrastructure/forwarder.dart';
 
 typedef Callback<T> = void Function(T data);
 typedef VoidCallback = void Function();
@@ -19,7 +19,7 @@ class WorkRequest<T> {
   Type? responseDataType;
   VoidCallback? voidCallback;
   Callback<T>? callback;
-  late int workId ;
+  late int workId;
 
   bool hasCallback;
   bool hasVoidCallback;
@@ -27,21 +27,18 @@ class WorkRequest<T> {
 
   RequestData toJson(int messageId) {
     return RequestData(
-        service: service,
-        task: task,
-        data: data,
-        messageId: messageId);
+        service: service, task: task, data: data, messageId: messageId);
   }
 }
 
-class RequestData{
-  RequestData(
-      {required this.service,
-      required this.task,
-      required this.data,
-      required this.messageId,
-     });
-      
+class RequestData {
+  RequestData({
+    required this.service,
+    required this.task,
+    required this.data,
+    required this.messageId,
+  });
+
   AppServices service;
   Task task;
 
@@ -50,12 +47,8 @@ class RequestData{
   int messageId;
 }
 
-
 class WorkResult {
-  WorkResult(
-      {required this.workId,
-      required this.status,
-      this.data});
+  WorkResult({required this.workId, required this.status, this.data});
 
   OperationStatus status;
   int workId;
@@ -71,23 +64,15 @@ class WorkResult {
   }
 }
 
-abstract class ServiceTask<T>{
+abstract class ServiceTask<T> {
   Future<T> execute(dynamic requestData);
 }
 
-enum WorkResultDataKeys{
-  status,
-  hasData,
-  data,
-  workId
-}
+enum WorkResultDataKeys { status, hasData, data, workId }
 
-enum AppServices {
-  remoteServer,
-  localDatabase
-}
+enum AppServices { remoteServer, localDatabase }
 
-enum RequestDataKeys{
+enum RequestDataKeys {
   barcode,
   record,
   records,
@@ -99,10 +84,12 @@ enum RequestDataKeys{
   workerId,
   workerName,
   username,
-  password, permissions, groupId,
+  password,
+  permissions,
+  groupId,
 }
 
-enum OperationStatus{
+enum OperationStatus {
   success,
   failure,
   error,
@@ -112,4 +99,18 @@ class Task {
   final int index;
   final String name;
   Task(this.index, this.name);
+}
+
+class EmptyTask extends ServiceTask {
+  @override
+  Future execute(requestData) {
+    throw UnimplementedError();
+  }
+}
+
+class EmptyService extends ServiceHandler {
+  @override
+  Future<dynamic> handleMessage(RequestData message) {
+    throw UnimplementedError();
+  }
 }
