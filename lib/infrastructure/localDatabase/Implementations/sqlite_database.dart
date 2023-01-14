@@ -6,42 +6,37 @@ import 'package:gestion_maintenance_mobile/infrastructure/localDatabase/Implemen
 import 'package:gestion_maintenance_mobile/infrastructure/localDatabase/Types/constants.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/localDatabase/Types/tasks.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
-import 'package:sqflite_common/sqlite_api.dart';
 import '../Types/interfaces.dart' as app;
 
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqlite3/sqlite3.dart';
 
 class SqliteDatabase extends ServiceHandler implements app.Database {
-
   late Database _db;
 
   final List<ServiceTask> _services = [];
   final DatabaseRepository _repository = DatabaseRepository();
   final String _storagePath;
 
-  SqliteDatabase(this._storagePath) ;
+  SqliteDatabase(this._storagePath);
 
   @override
   Future<void> close() async {
-    _db.close();
+    _db.dispose();
   }
 
   @override
   Future<bool> open(
       {required String username, required String password}) async {
     try {
-
       String dbPath = "$_storagePath/$databaseName";
-      _db = await databaseFactoryFfi.openDatabase(
+      _db = sqlite3.open(
         dbPath,
-        options: OpenDatabaseOptions(
-          version: 1,
-          onCreate: _onCreate,
-        ),
       );
-
-
+      await _onCreate(_db, 1);
+      _initialiseTaskSlots();
+      await _registerTasks();
     } catch (e) {
+      print(e);
       return false;
     }
 
@@ -59,8 +54,7 @@ class SqliteDatabase extends ServiceHandler implements app.Database {
     });
   }
 
-  Future<void> _registerTasks() async{
-
+  Future<void> _registerTasks() async {
     _services[LocalDatabaseTasks.loadScannedBarcodes.index] =
         LoadRecordsTask(_db, _repository);
 
@@ -103,7 +97,7 @@ class SqliteDatabase extends ServiceHandler implements app.Database {
       )
     ''';
 
-    await db.execute(query);
+    db.execute(query);
 
     query = ''' Create Table IF NOT EXISTS $designationsTable
     (
@@ -113,7 +107,7 @@ class SqliteDatabase extends ServiceHandler implements app.Database {
     )
     ''';
 
-    await db.execute(query);
+    db.execute(query);
 
     query = ''' Create Table IF NOT EXISTS $barcodesQueueTable
     (
@@ -123,16 +117,11 @@ class SqliteDatabase extends ServiceHandler implements app.Database {
     )
     ''';
 
-    await db.execute(query);
-
-
+    db.execute(query);
   }
-  
-  @override
-  Future<void> init() async{
-     _initialiseTaskSlots();
 
+  @override
+  Future<void> init() async {
     await open(username: "", password: "");
-      _registerTasks();
   }
 }

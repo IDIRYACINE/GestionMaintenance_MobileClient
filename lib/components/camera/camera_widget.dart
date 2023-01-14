@@ -107,6 +107,7 @@ class _CameraPreviewState extends State<_CameraPreview> {
 
     return Stack(children: [
       camWidget,
+      _ActiveSquareOverlay(cameraPreviewSize: widget.cameraController.value.previewSize!),
       Align(
         alignment: Alignment.bottomCenter,
         child: Row(
@@ -184,6 +185,42 @@ class _CameraResolutionSelectorState extends State<CameraResolutionSelector> {
               Navigator.pop(context, currentResolution);
             },
           )
+        ],
+      ),
+    );
+  }
+}
+
+
+class _ActiveSquareOverlay extends StatelessWidget {
+  final Size cameraPreviewSize;
+  final double squareSize = 300;
+
+  const _ActiveSquareOverlay({
+    required this.cameraPreviewSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: cameraPreviewSize.width,
+      height: cameraPreviewSize.height,
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            left: (cameraPreviewSize.width - squareSize) / 2,
+            top: (cameraPreviewSize.height - squareSize) / 2,
+            child: Container(
+              width: squareSize,
+              height: squareSize,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.red,
+                  width: 2,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

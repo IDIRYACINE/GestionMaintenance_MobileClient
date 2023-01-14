@@ -35,7 +35,6 @@ class Controller {
   }
 
   Future<void> _onLoadedScannedBarcodes(Map<int, Record> records) async {
-    print("here");
     _recordsBloc.add(LoadRecords(records));
 
     AppNavigator.pop();

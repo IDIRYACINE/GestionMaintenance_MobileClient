@@ -47,11 +47,9 @@ class _LoginViewState extends State<LoginView> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: FractionallySizedBox(
-            widthFactor: 0.8,
-            heightFactor: 0.5,
-            child: Form(
-              key: formKey,
+          child: Form(
+            key: formKey,
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
