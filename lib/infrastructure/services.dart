@@ -1,10 +1,11 @@
 import 'dart:isolate';
 
+
 import 'forwarder.dart';
 import 'workRequests/types.dart';
 
 class ServicesCenter {
-  ServicesCenter._() {
+  ServicesCenter._(String storagePath) {
     ReceivePort uiPort = ReceivePort();
 
     uiPort.listen((message) {
@@ -17,7 +18,11 @@ class ServicesCenter {
       _receiveMessage(message);
     });
 
-    Isolate.spawn(registerPort, uiPort.sendPort).then((isolate) {
+    IsolateParams data =
+        IsolateParams(
+            uiThreadPort: uiPort.sendPort, storagePath: storagePath);
+
+    Isolate.spawn(registerPort, data).then((isolate) {
       _isolateBackground = isolate;
     });
   }
@@ -32,8 +37,12 @@ class ServicesCenter {
 
   static ServicesCenter? _instance;
 
-  factory ServicesCenter.instance() {
-    _instance ??= ServicesCenter._();
+  factory ServicesCenter.instance({String? storagePath}) {
+    assert(
+        (_instance == null && storagePath != null) ||
+            (_instance != null && storagePath == null),
+        'ServicesCenter must be initialised first');
+    _instance ??= ServicesCenter._(storagePath!);
     return _instance!;
   }
 
@@ -44,13 +53,13 @@ class ServicesCenter {
     _backgroundThreadPort.send(workRequest.toJson(workRequest.workId));
   }
 
-  void registerPort(SendPort sendPort) async {
+  void registerPort(IsolateParams data) async {
     ReceivePort servicePort = ReceivePort();
 
-    ServicesForwarder eventsForwarder =
-        ServicesForwarder(uiThreadPort: sendPort);
+    ServicesForwarder eventsForwarder = ServicesForwarder(
+        uiThreadPort: data.uiThreadPort, storagePath: data.storagePath);
 
-    sendPort.send(servicePort.sendPort);
+    data.uiThreadPort.send(servicePort.sendPort);
 
     servicePort.listen((message) {
       eventsForwarder.handleMessage(message);
@@ -96,4 +105,12 @@ class ServicesCenter {
 
     return null;
   }
+}
+
+class IsolateParams {
+  final SendPort uiThreadPort;
+  final String storagePath;
+
+  IsolateParams(
+      {required this.uiThreadPort, required this.storagePath});
 }

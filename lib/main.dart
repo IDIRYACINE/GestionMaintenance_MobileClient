@@ -8,11 +8,15 @@ import 'package:gestion_maintenance_mobile/features/login/state/auth_block.dart'
 import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
 import 'package:gestion_maintenance_mobile/localisation/app_localisations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'blocs/settings/settings_bloc.dart';
 import 'features/themes/constants.dart';
 
-void main() {
-  ServicesCenter.instance();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  final directory = await getApplicationDocumentsDirectory();
+  ServicesCenter.instance(storagePath: directory.path);
 
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (_) => SettingsBloc()),
@@ -25,11 +29,12 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   Future<void> initApp(BuildContext appContext) async {
-    BarcodeCenter.instance(recordsBloc: appContext.read<RecordsBloc>(), authBloc: appContext.read<AuthBloc>());
+    BarcodeCenter.instance(
+        recordsBloc: appContext.read<RecordsBloc>(),
+        authBloc: appContext.read<AuthBloc>());
     BarcodeCenter.initExtensions(SettingsState.initialState());
     await Future.delayed(const Duration(seconds: 5));
   }
-
 
   @override
   Widget build(BuildContext context) {

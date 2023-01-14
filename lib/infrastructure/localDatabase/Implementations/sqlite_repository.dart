@@ -17,9 +17,9 @@ class DatabaseRepository {
   }
 
   Map<String, dynamic> mapToBarcodeMap(Barcode barcode) => {
-        BarcodesQueueTableColumns.barcode.name: barcode.barcode,
-        BarcodesQueueTableColumns.date.name: barcode.scannedDate,
-        BarcodesQueueTableColumns.status.name: barcode.state.index
+        BarcodeQueueTableColumns.barcode.name: barcode.barcode,
+        BarcodeQueueTableColumns.date.name: barcode.scannedDate.toString(),
+        BarcodeQueueTableColumns.status.name: barcode.state.index
       };
 
   List<Record> mapToRecordList(ResultSet value) {
@@ -29,9 +29,9 @@ class DatabaseRepository {
       int recordState = map[ScannedBarcodeTableColumns.status.name] as int;
 
       records.add(Record(
-          id: map[DesignationsTableColumns.departmentId.name] as int,
-          name: map[DesignationsTableColumns.departmentName.name] as String?,
-          count: map[DesignationsTableColumns.productsCount.name] as int,
+          id: map[DesignationTableColumns.departmentId.name] as int,
+          name: map[DesignationTableColumns.departmentName.name] as String?,
+          count: map[DesignationTableColumns.productsCount.name] as int,
           state: _recordStates[recordState],
           barcodes: {}));
     }
@@ -40,19 +40,19 @@ class DatabaseRepository {
   }
 
   Barcode mapToBarcode(Map<String, dynamic> element) {
-    int barcodeState = element[BarcodesQueueTableColumns.status.name];
+    int barcodeState = element[BarcodeQueueTableColumns.status.name];
 
     return Barcode(
-        barcode: element[BarcodesQueueTableColumns.barcode.name],
-        scannedDate: element[BarcodesQueueTableColumns.date.name],
+        barcode: element[BarcodeQueueTableColumns.barcode.name],
+        scannedDate: element[BarcodeQueueTableColumns.date.name],
         state: _barcodeStates[barcodeState]);
   }
 
   Map<String, Object?> mapToDesignationMap(Record record) {
     Map<String, Object?> designationMap = {
-      DesignationsTableColumns.departmentName.name: record.name,
-      DesignationsTableColumns.departmentId.name: record.count,
-      DesignationsTableColumns.productsCount.name: record.barcodes.length,
+      DesignationTableColumns.departmentName.name: record.name,
+      DesignationTableColumns.departmentId.name: record.count,
+      DesignationTableColumns.productsCount.name: record.barcodes.length,
     };
     return designationMap;
   }
@@ -62,12 +62,12 @@ class DatabaseRepository {
 
     for (Map<String, Object?> map in value) {
       int recordState = map[ScannedBarcodeTableColumns.status.name] as int;
-      int recordId = map[DesignationsTableColumns.departmentId.name] as int;
+      int recordId = map[DesignationTableColumns.departmentId.name] as int;
 
       records[recordId] = Record(
           id: recordId,
-          name: map[DesignationsTableColumns.departmentName.name] as String?,
-          count: map[DesignationsTableColumns.productsCount.name] as int,
+          name: map[DesignationTableColumns.departmentName.name] as String?,
+          count: map[DesignationTableColumns.productsCount.name] as int,
           state: _recordStates[recordState],
           barcodes: {});
     }
@@ -79,7 +79,7 @@ class DatabaseRepository {
       ResultSet resultSet, Map<int, Record> designations) {
     for (var element in resultSet) {
       int departmentId =
-          element[DesignationsTableColumns.departmentId.name] as int;
+          element[DesignationTableColumns.departmentId.name] as int;
       Barcode barcode = mapToBarcode(element);
 
       designations[departmentId]?.barcodes[barcode.barcode] = barcode;
@@ -91,8 +91,8 @@ class DatabaseRepository {
       ScannedBarcodeTableColumns.barcode.name: barcode.barcode,
       ScannedBarcodeTableColumns.departmentId.name: record.id,
       ScannedBarcodeTableColumns.name.name : barcode.name,
-      ScannedBarcodeTableColumns.status.name : barcode.state,
-      ScannedBarcodeTableColumns.date.name : barcode.scannedDate
+      ScannedBarcodeTableColumns.status.name : barcode.state.index,
+      ScannedBarcodeTableColumns.date.name : barcode.scannedDate.toString()
     };
 
     return map;

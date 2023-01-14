@@ -25,6 +25,12 @@ class AddBarcode extends RecordEvent{
   AddBarcode(this.barcode);
 }
 
+class LoadWaitingBarcodes extends RecordEvent{
+  final List<Barcode> barcodes;
+
+  LoadWaitingBarcodes(this.barcodes);
+}
+
 class UpdateBarcode extends RecordEvent{
   final Barcode barcode;
   final int locationId;

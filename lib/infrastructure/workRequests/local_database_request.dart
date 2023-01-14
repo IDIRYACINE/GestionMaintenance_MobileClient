@@ -17,12 +17,17 @@ abstract class LocalDatabaseRequestBuilder {
     );
   }
 
-  static WorkRequest<List<Barcode>> loadBarcodeWaitingQueue() {
+  static WorkRequest<List<Barcode>> loadBarcodeWaitingQueue(
+      {required Callback<List<Barcode>> callback}) {
     Task task = Task(LocalDatabaseTasks.loadBarcodeWaitingQueue.index,
         LocalDatabaseTasks.loadBarcodeWaitingQueue.name);
 
     return WorkRequest<List<Barcode>>(
-        service: AppServices.localDatabase, task: task, data: null);
+        service: AppServices.localDatabase,
+        task: task,
+        data: null,
+        callback: callback,
+        hasCallback: true);
   }
 
   static WorkRequest<void> deleteBarcodeFromWaitingQueue(
@@ -57,7 +62,6 @@ abstract class LocalDatabaseRequestBuilder {
   }
 
   static WorkRequest<void> insertDesignation({required Record record}) {
-    
     Task task = Task(LocalDatabaseTasks.insertDesignation.index,
         LocalDatabaseTasks.insertDesignation.name);
 
@@ -70,12 +74,17 @@ abstract class LocalDatabaseRequestBuilder {
     );
   }
 
-  static WorkRequest<List<Barcode>> loadScannedBarcodes() {
+  static WorkRequest<List<Barcode>> loadScannedBarcodes(
+      {required Callback<List<Barcode>> callback}) {
     Task task = Task(LocalDatabaseTasks.loadScannedBarcodes.index,
         LocalDatabaseTasks.loadScannedBarcodes.name);
 
     return WorkRequest<List<Barcode>>(
-        service: AppServices.localDatabase, task: task, data: null);
+        service: AppServices.localDatabase,
+        task: task,
+        data: null,
+        hasCallback: true,
+        callback: callback);
   }
 
   static WorkRequest<void> updateWaitingBarcodeState(

@@ -37,9 +37,9 @@ extension ScannedBarcodeTableAttributes on ScannedBarcodeTableColumns {
   String get type {
     switch (this) {
       case ScannedBarcodeTableColumns.id:
-        return 'INTEGER PRIMARY KEY AUTOINCREMENT';
+        return 'INTEGER AUTOINCREMENT';
       case ScannedBarcodeTableColumns.barcode:
-        return 'INTEGER NOT NULL';
+        return 'INTEGER NOT NULL PRIMARY KEY';
       case ScannedBarcodeTableColumns.status:
         return 'INTEGER NOT NULL';
       case ScannedBarcodeTableColumns.date:
@@ -57,36 +57,36 @@ extension ScannedBarcodeTableAttributes on ScannedBarcodeTableColumns {
 
 String designationsTable = 'designations';
 
-enum DesignationsTableColumns {
+enum DesignationTableColumns {
   departmentId,
   departmentName,
   productsCount,
   sessionId,
 }
 
-extension DesignationsTableAttributes on DesignationsTableColumns {
+extension DesignationsTableAttributes on DesignationTableColumns {
   String get name {
     switch (this) {
-      case DesignationsTableColumns.departmentId:
+      case DesignationTableColumns.departmentId:
         return 'department_id';
-      case DesignationsTableColumns.departmentName:
+      case DesignationTableColumns.departmentName:
         return 'department_name';
-      case DesignationsTableColumns.productsCount:
+      case DesignationTableColumns.productsCount:
         return 'productsCount';
-      case DesignationsTableColumns.sessionId:
+      case DesignationTableColumns.sessionId:
         return 'session_id';
     }
   }
 
   String get type {
     switch (this) {
-      case DesignationsTableColumns.departmentId:
-        return 'INTEGER NOT NULL';
-      case DesignationsTableColumns.departmentName:
+      case DesignationTableColumns.departmentId:
+        return 'INTEGER NOT NULL PRIMARY KEY';
+      case DesignationTableColumns.departmentName:
         return 'TEXT NOT NULL';
-      case DesignationsTableColumns.sessionId:
+      case DesignationTableColumns.sessionId:
         return 'INTEGER NOT NULL';
-      case DesignationsTableColumns.productsCount:
+      case DesignationTableColumns.productsCount:
         return 'INTEGER NOT NULL';
     }
   }
@@ -94,31 +94,31 @@ extension DesignationsTableAttributes on DesignationsTableColumns {
 
 String barcodesQueueTable = 'barcodes_queue';
 
-enum BarcodesQueueTableColumns {
+enum BarcodeQueueTableColumns {
   barcode,
   status,
   date
 }
 
-extension BarcodesQueueTableAttributes on BarcodesQueueTableColumns {
+extension BarcodesQueueTableAttributes on BarcodeQueueTableColumns {
   String get name {
     switch (this) {
-      case BarcodesQueueTableColumns.barcode:
+      case BarcodeQueueTableColumns.barcode:
         return 'barcode';
-      case BarcodesQueueTableColumns.status:
+      case BarcodeQueueTableColumns.status:
         return 'status';
-      case BarcodesQueueTableColumns.date:
+      case BarcodeQueueTableColumns.date:
         return 'date';
     }
   }
 
   String get type {
     switch (this) {
-      case BarcodesQueueTableColumns.barcode:
+      case BarcodeQueueTableColumns.barcode:
+        return 'INTEGER NOT NULL PRIMARY KEY';
+      case BarcodeQueueTableColumns.status:
         return 'INTEGER NOT NULL';
-      case BarcodesQueueTableColumns.status:
-        return 'INTEGER NOT NULL';
-      case BarcodesQueueTableColumns.date:
+      case BarcodeQueueTableColumns.date:
         return 'DATE NOT NULL';
     }
   }

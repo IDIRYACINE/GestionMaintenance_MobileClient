@@ -1,13 +1,14 @@
 import 'dart:isolate';
 
+import 'package:gestion_maintenance_mobile/infrastructure/localDatabase/local_database.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 
 import 'remoteServer/remote_server_gateway.dart';
 
 class ServicesForwarder {
-  ServicesForwarder({required this.uiThreadPort}) {
+  ServicesForwarder({required this.uiThreadPort,required String storagePath}) {
     _initialseServicesSlots();
-    _registerServices();
+    _registerServices(storagePath);
   }
 
   final SendPort uiThreadPort;
@@ -20,8 +21,12 @@ class ServicesForwarder {
     });
   }
 
-  void _registerServices() {
+  void _registerServices(String storagePath) {
     services[AppServices.remoteServer.index] = RemoteServerGateway();
+
+    SqliteDatabase db = SqliteDatabase(storagePath);
+    db.init();
+    services[AppServices.localDatabase.index] = db;
   }
 
   void _initialseServicesSlots() {
