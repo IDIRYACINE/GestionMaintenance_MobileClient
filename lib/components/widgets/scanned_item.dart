@@ -41,7 +41,7 @@ class _ScannedItemState extends State<ScannedItem> {
             builder: (context, state) {
               Barcode item =
                   state.records[widget.locationId]!.barcodes[widget.barcode]!;
-              return Text(item.name ?? Localisations.of(context)!.loading);
+              return Text(item.name ?? item.state.name);
             }),
         subtitle: Text('${widget.barcode}'),
       ),

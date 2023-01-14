@@ -22,10 +22,12 @@ abstract class LocalDatabaseRequestBuilder {
     Task task = Task(LocalDatabaseTasks.loadBarcodeWaitingQueue.index,
         LocalDatabaseTasks.loadBarcodeWaitingQueue.name);
 
+    Map<RequestDataKeys, dynamic> emptyKeysMap = {};
+
     return WorkRequest<List<Barcode>>(
         service: AppServices.localDatabase,
         task: task,
-        data: null,
+        data: emptyKeysMap,
         callback: callback,
         hasCallback: true);
   }
@@ -74,15 +76,18 @@ abstract class LocalDatabaseRequestBuilder {
     );
   }
 
-  static WorkRequest<List<Barcode>> loadScannedBarcodes(
-      {required Callback<List<Barcode>> callback}) {
+  static WorkRequest<Map<int, Record>> loadScannedBarcodes(
+      {required Callback<Map<int, Record>> callback}) {
+        
     Task task = Task(LocalDatabaseTasks.loadScannedBarcodes.index,
         LocalDatabaseTasks.loadScannedBarcodes.name);
 
-    return WorkRequest<List<Barcode>>(
+    Map<RequestDataKeys, dynamic> emptyKeysMap = {};
+
+    return WorkRequest<Map<int, Record>>(
         service: AppServices.localDatabase,
         task: task,
-        data: null,
+        data: emptyKeysMap,
         hasCallback: true,
         callback: callback);
   }

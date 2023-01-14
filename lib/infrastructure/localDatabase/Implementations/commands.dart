@@ -4,7 +4,6 @@ import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dar
 
 import 'package:sqflite_common/sqlite_api.dart' as sql;
 
-
 class InsertWaitingBarcodeTask extends ServiceTask<WorkResult> {
   InsertWaitingBarcodeTask(this._db, this._repository);
 
@@ -96,9 +95,13 @@ class InsertScannedBarcodeTask extends ServiceTask<WorkResult> {
     Barcode barcode = requestData[RequestDataKeys.barcode];
 
     try {
-    
       await _db.insert(scannedBarcodesTable,
-          _repository.mapToScannedBarcode(record, barcode));
+          _repository.mapToScannedBarcodeMap(record, barcode));
+
+      await _db.update(designationsTable,
+          {DesignationTableColumns.productsCount.name: record.count},
+          where: "${DesignationTableColumns.departmentId.name} = ?",
+          whereArgs: [record.id]);
 
       return WorkResult(
           workId: -1, status: OperationStatus.success, data: null);
@@ -121,7 +124,6 @@ class InsertDesignationTask extends ServiceTask<WorkResult> {
     try {
       await _db.insert(
           designationsTable, _repository.mapToDesignationMap(record));
-  
 
       return WorkResult(
           workId: -1, status: OperationStatus.success, data: null);
@@ -131,7 +133,6 @@ class InsertDesignationTask extends ServiceTask<WorkResult> {
   }
 }
 
-
 class LoadRecordsTask extends ServiceTask<WorkResult> {
   LoadRecordsTask(this._db, this._repository);
 
@@ -140,16 +141,21 @@ class LoadRecordsTask extends ServiceTask<WorkResult> {
 
   @override
   Future<WorkResult> execute(requestData) async {
-    return _db.query(designationsTable).then((value) {
-      Map<int, Record> designations = _repository.mapToRecordMap(value);
+    try {
+      final resultSet = await _db.query(designationsTable);
+
+      Map<int, Record> designations = _repository.mapToRecordMap(resultSet);
       return _loadDesignationsBarcodes(designations);
-    }).onError((error, stackTrace) =>
-        WorkResult(workId: -1, status: OperationStatus.error, data: []));
+    } catch (e) {
+
+      return WorkResult(workId: -1, status: OperationStatus.error, data: {});
+    }
   }
 
   Future<WorkResult> _loadDesignationsBarcodes(
       Map<int, Record> designations) async {
     ResultSet resultSet = await _db.query(scannedBarcodesTable);
+
     _repository.mapToBarcodeListAndAssignToDesignation(resultSet, designations);
 
     return WorkResult(

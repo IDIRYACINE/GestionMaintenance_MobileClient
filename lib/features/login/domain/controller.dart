@@ -8,7 +8,6 @@ import 'package:gestion_maintenance_mobile/infrastructure/workRequests/local_dat
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
 
 class Controller {
-
   final RecordsBloc _recordsBloc;
 
   Controller(this._recordsBloc);
@@ -20,13 +19,25 @@ class Controller {
         LocalDatabaseRequestBuilder.loadBarcodeWaitingQueue(
             callback: _onLoadedWaitingQueue);
     serviceCenter.emitWorkRequest(loadWaiting);
-
-    // WorkRequest loadScannedBarcodes = LocalDatabaseRequestBuilder.loadScannedBarcodes();
-    // serviceCenter.emitWorkRequest(loadScannedBarcodes);
   }
 
   Future<void> _onLoadedWaitingQueue(List<Barcode> barcodes) async {
-    _recordsBloc.add(LoadWaitingBarcodes(barcodes));
+    if (barcodes.isNotEmpty) {
+      _recordsBloc.add(LoadWaitingBarcodes(barcodes));
+    }
+
+    WorkRequest loadScannedBarcodes =
+        LocalDatabaseRequestBuilder.loadScannedBarcodes(
+            callback: _onLoadedScannedBarcodes);
+
+    ServicesCenter.instance().emitWorkRequest(loadScannedBarcodes);
+
+  }
+
+  Future<void> _onLoadedScannedBarcodes(Map<int, Record> records) async {
+    print("here");
+    _recordsBloc.add(LoadRecords(records));
+
     AppNavigator.pop();
   }
 }

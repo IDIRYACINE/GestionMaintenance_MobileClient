@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_events.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_state.dart';
@@ -10,6 +12,7 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
   RecordsBloc() : super(RecordState.initialState()) {
     on<AddRecord>((_addRecord));
     on<LoadRecords>((_loadRecords));
+    on<LoadWaitingBarcodes>(_loadWaitingRecord);
     on<AddBarcode>((_addBarcode));
     on<UpdateBarcode>((_updateBarcode));
   }
@@ -28,7 +31,10 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
 
   Future<void> _loadRecords(
       LoadRecords event, Emitter<RecordState> emit) async {
-    emit(RecordState(event.records));
+    Map<int, Record> records = Map.from(state.records);
+    records.addAll(event.records);
+
+    emit(RecordState(records));
   }
 
   Future<void> _addBarcode(AddBarcode event, Emitter<RecordState> emit) async {
@@ -114,5 +120,24 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
             barcode: barcode, record: tempRecord);
 
     servicesCenter.emitWorkRequest(registerScannedBarcode);
+  }
+
+  FutureOr<void> _loadWaitingRecord(
+      LoadWaitingBarcodes event, Emitter<RecordState> emit) {
+    Map<int, Record> records = Map.from(state.records);
+
+    Record pendingItemsRecord = records[RecordState.pendingItemsRecordIndex]!;
+
+    Map<int, Barcode> barcodes = {};
+    for (Barcode element in event.barcodes) {
+      barcodes[element.barcode] = element;
+    }
+
+    pendingItemsRecord.copyWith(
+        barcodes: barcodes, count: event.barcodes.length);
+
+    records[RecordState.pendingItemsRecordIndex] = pendingItemsRecord;
+
+    emit(RecordState(records));
   }
 }

@@ -37,7 +37,7 @@ extension ScannedBarcodeTableAttributes on ScannedBarcodeTableColumns {
   String get type {
     switch (this) {
       case ScannedBarcodeTableColumns.id:
-        return 'INTEGER AUTOINCREMENT';
+        return 'INTEGER ';
       case ScannedBarcodeTableColumns.barcode:
         return 'INTEGER NOT NULL PRIMARY KEY';
       case ScannedBarcodeTableColumns.status:

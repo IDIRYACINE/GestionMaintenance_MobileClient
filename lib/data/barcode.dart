@@ -43,7 +43,6 @@ class Barcode {
         name: json['name']);
   }
 }
-
 class Record {
   Map<int, Barcode> barcodes;
   int count;

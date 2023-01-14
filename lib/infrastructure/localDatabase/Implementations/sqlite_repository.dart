@@ -41,18 +41,30 @@ class DatabaseRepository {
 
   Barcode mapToBarcode(Map<String, dynamic> element) {
     int barcodeState = element[BarcodeQueueTableColumns.status.name];
+    DateTime date = DateTime.parse(element[BarcodeQueueTableColumns.date.name]);
 
     return Barcode(
         barcode: element[BarcodeQueueTableColumns.barcode.name],
-        scannedDate: element[BarcodeQueueTableColumns.date.name],
+        scannedDate: date,
+        state: _barcodeStates[barcodeState]);
+  }
+
+  Barcode mapToScannedBarcode(Map<String, dynamic> element) {
+    int barcodeState = element[ScannedBarcodeTableColumns.status.name];
+    DateTime date = DateTime.parse(element[ScannedBarcodeTableColumns.date.name]);
+
+    return Barcode(
+        barcode: element[ScannedBarcodeTableColumns.barcode.name],
+        scannedDate: date,
+        name: element[ScannedBarcodeTableColumns.name.name],
         state: _barcodeStates[barcodeState]);
   }
 
   Map<String, Object?> mapToDesignationMap(Record record) {
     Map<String, Object?> designationMap = {
       DesignationTableColumns.departmentName.name: record.name,
-      DesignationTableColumns.departmentId.name: record.count,
-      DesignationTableColumns.productsCount.name: record.barcodes.length,
+      DesignationTableColumns.departmentId.name: record.id,
+      DesignationTableColumns.productsCount.name: record.count,
     };
     return designationMap;
   }
@@ -61,14 +73,13 @@ class DatabaseRepository {
     Map<int, Record> records = {};
 
     for (Map<String, Object?> map in value) {
-      int recordState = map[ScannedBarcodeTableColumns.status.name] as int;
       int recordId = map[DesignationTableColumns.departmentId.name] as int;
 
       records[recordId] = Record(
           id: recordId,
           name: map[DesignationTableColumns.departmentName.name] as String?,
           count: map[DesignationTableColumns.productsCount.name] as int,
-          state: _recordStates[recordState],
+          state: _recordStates[0],
           barcodes: {});
     }
 
@@ -79,14 +90,13 @@ class DatabaseRepository {
       ResultSet resultSet, Map<int, Record> designations) {
     for (var element in resultSet) {
       int departmentId =
-          element[DesignationTableColumns.departmentId.name] as int;
-      Barcode barcode = mapToBarcode(element);
-
+          element[ScannedBarcodeTableColumns.departmentId.name] as int;
+      Barcode barcode = mapToScannedBarcode(element);
       designations[departmentId]?.barcodes[barcode.barcode] = barcode;
     }
   }
 
-  Map<String, Object?> mapToScannedBarcode(Record record, Barcode barcode) {
+  Map<String, Object?> mapToScannedBarcodeMap(Record record, Barcode barcode) {
     Map<String, Object?> map = {
       ScannedBarcodeTableColumns.barcode.name: barcode.barcode,
       ScannedBarcodeTableColumns.departmentId.name: record.id,
