@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/settings/settings_bloc.dart';
-import 'package:gestion_maintenance_mobile/blocs/settings/settings_state.dart';
 import 'package:gestion_maintenance_mobile/components/camera/camera_widget.dart';
 import 'package:gestion_maintenance_mobile/components/camera/types.dart';
 import 'package:gestion_maintenance_mobile/core/extensions/toaster.dart';
@@ -12,33 +11,32 @@ import 'package:gestion_maintenance_mobile/features/themes/themes.dart';
 class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});
 
-
   @override
   State<ScannerPage> createState() => _ScannerPageState();
 }
 
 class _ScannerPageState extends State<ScannerPage> {
+  Scanner scanner = Scanner();
+
+  void onScan(bool isScanning) {
+    scanner.toggleScan(isScanning);
+  }
+
+  void initialiseScanner(ScannerController scanController) {
+    scanner.setScannerController(scanController);
+  }
 
   @override
   Widget build(BuildContext context) {
     ToasterExtension.instance().setBuildContext(context);
 
-    Scanner scanner = Scanner();
-
-    void onScan(bool isScanning) {
-      scanner.toggleScan(isScanning);
-    }
-
-    void initialiseScanner(ScannerController scanController) {
-      scanner.setScannerController(scanController);
-    }
+    scanner.setScanMode(BlocProvider.of<SettingsBloc>(context)
+        .state
+        .continousScanSetting
+        .enabled);
 
     return Scaffold(
-        body: BlocListener<SettingsBloc, SettingsState>(
-      listener: (context, state) {
-        scanner.setScanMode(state.continousScanSetting.enabled);
-      },
-      child: CameraView(
+      body: CameraView(
         onInitialise: initialiseScanner,
         flashWidget: const _FlashWidget(),
         scanWidget: ScanButton(
@@ -46,7 +44,7 @@ class _ScannerPageState extends State<ScannerPage> {
           registerScanCallback: scanner.scanButtonStatusSetter,
         ),
       ),
-    ),);
+    );
   }
 }
 

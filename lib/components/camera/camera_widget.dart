@@ -107,7 +107,6 @@ class _CameraPreviewState extends State<_CameraPreview> {
 
     return Stack(children: [
       camWidget,
-      _ActiveSquareOverlay(cameraPreviewSize: widget.cameraController.value.previewSize!),
       Align(
         alignment: Alignment.bottomCenter,
         child: Row(

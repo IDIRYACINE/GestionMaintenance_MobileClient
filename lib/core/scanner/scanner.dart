@@ -44,6 +44,9 @@ class Scanner {
 
   void _onCameraImage(CameraImage image) {
     _analyser.scan(image).then((barcodes) {
+
+      if (barcodes.isEmpty) return;
+
       String? barcode = barcodes.first;
       if (_isValidBarcode(barcode)) {
         BarcodeCenter.instance().emitBarcode(barcode);

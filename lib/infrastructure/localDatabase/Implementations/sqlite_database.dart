@@ -36,7 +36,6 @@ class SqliteDatabase extends ServiceHandler implements app.Database {
       _initialiseTaskSlots();
       await _registerTasks();
     } catch (e) {
-      print(e);
       return false;
     }
 
