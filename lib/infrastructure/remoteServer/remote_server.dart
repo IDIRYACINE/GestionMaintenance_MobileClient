@@ -29,6 +29,7 @@ class SendBarcodeTask extends ServiceTask<WorkResult> {
         'Content-Type': 'application/json',
       },
     ).then((responseJson) {
+
       ScannedItemData response =
           ScannedItemData.fromJson(jsonDecode(responseJson.body));
 

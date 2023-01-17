@@ -1,20 +1,26 @@
+import 'package:gestion_maintenance_mobile/infrastructure/remoteServer/types.dart';
+
 class ScannedItemData {
   final int barcode;
   final String itemName;
   final String locationName;
   final int locationId;
+  final BarcodeTaskStatus status;
 
-  ScannedItemData(
-      this.barcode, this.itemName, this.locationName, this.locationId);
+  ScannedItemData(this.barcode, this.itemName, this.locationName,
+      this.locationId, this.status);
 
   factory ScannedItemData.fromJson(Map<String, dynamic> json) {
     ScannedItemData data;
+    List<BarcodeTaskStatus> status = BarcodeTaskStatus.values;
+
     try {
+      int statusIndex = json['operationResult'] ?? 0;
 
       data = ScannedItemData(json['barcode'], json['itemName'],
-          json['locationName'], json['locationId']);
+          json['locationName'], json['locationId'], status[statusIndex]);
     } catch (e) {
-      data = ScannedItemData(-1, '', '', -1);
+      data = ScannedItemData(-1, '', '', -1,status[BarcodeTaskStatus.alreadyScanned.index]);
     }
 
     return data;

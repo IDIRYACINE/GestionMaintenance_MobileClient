@@ -32,3 +32,9 @@ enum RemoteServerTasks{
   sendBarcode,
   sendRecord
 }
+
+enum BarcodeTaskStatus{
+  success,
+  error,
+  alreadyScanned
+}

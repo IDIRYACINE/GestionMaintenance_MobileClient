@@ -39,4 +39,9 @@ class UpdateBarcode extends RecordEvent{
   UpdateBarcode(this.barcode, this.locationId, this.locationName);
 }
 
+class BarcodeAlreadyScanned extends RecordEvent{
+  final Barcode barcode;
+
+  BarcodeAlreadyScanned(this.barcode);
+}
 

@@ -15,6 +15,7 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
     on<LoadWaitingBarcodes>(_loadWaitingRecord);
     on<AddBarcode>((_addBarcode));
     on<UpdateBarcode>((_updateBarcode));
+    on<BarcodeAlreadyScanned>((_barcodeAlreadyScanned));
   }
 
   Future<void> _addRecord(AddRecord event, Emitter<RecordState> emit) async {
@@ -139,5 +140,20 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
     records[RecordState.pendingItemsRecordIndex] = pendingItemsRecord;
 
     emit(RecordState(records));
+  }
+
+  FutureOr<void> _barcodeAlreadyScanned(
+      BarcodeAlreadyScanned event, Emitter<RecordState> emit) {
+    Record pendingItemsRecord =
+        state.records[RecordState.pendingItemsRecordIndex]!;
+    pendingItemsRecord.barcodes.remove(event.barcode.barcode);
+
+    Map<int, Record> updatedRecords = Map.from(state.records);
+    updatedRecords[RecordState.pendingItemsRecordIndex] = pendingItemsRecord;
+
+
+    LocalDatabaseRequestBuilder.deleteBarcodeFromWaitingQueue(barcode: event.barcode);
+    
+    emit(RecordState(updatedRecords));
   }
 }
