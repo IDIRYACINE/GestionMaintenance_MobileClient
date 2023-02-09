@@ -7,9 +7,8 @@ import 'types.dart';
 abstract class RemoteServerRequestBuilder {
   static WorkRequest<ScannedItemData> sendScannedBarcode(
       {required Barcode barcode,
-       required Worker worker,
+      required Worker worker,
       required Callback<ScannedItemData> onResponse}) {
-
     Map<RequestDataKeys, dynamic> data = {
       RequestDataKeys.barcode: barcode.barcode,
       RequestDataKeys.scannedDate: barcode.scannedDate,
@@ -49,5 +48,29 @@ abstract class RemoteServerRequestBuilder {
         hasCallback: true,
         callback: onResponse);
   }
-}
 
+  static WorkRequest sendScannedBarcodeBatch(
+      {required List<Barcode> barcodes,
+      required Worker worker,
+      required void Function(List<ScannedItemData> data) onResponse}) {
+    final rawBarcodes = barcodes.map((e) => e.barcode).toList();
+    Map<RequestDataKeys, dynamic> data = {
+      RequestDataKeys.barcodes: rawBarcodes,
+      RequestDataKeys.scannedDate: barcodes.first.scannedDate,
+      RequestDataKeys.workerId: worker.workerId,
+      RequestDataKeys.workerName: worker.workerName,
+      RequestDataKeys.permissions: worker.permissions,
+      RequestDataKeys.groupId: worker.groupId,
+    };
+
+    Task task = Task(RemoteServerTasks.sendBarcode.index,
+        RemoteServerTasks.sendBarcodeBatch.name);
+
+    return WorkRequest<List<ScannedItemData>>(
+        service: AppServices.remoteServer,
+        task: task,
+        data: data,
+        hasCallback: true,
+        callback: onResponse);
+  }
+}

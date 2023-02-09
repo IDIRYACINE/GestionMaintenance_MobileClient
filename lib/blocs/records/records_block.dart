@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_events.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_state.dart';
+import 'package:gestion_maintenance_mobile/core/barcodesCenter/barcodes_center.dart';
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/services.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/local_database_request.dart';
@@ -16,6 +17,8 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
     on<AddBarcode>((_addBarcode));
     on<UpdateBarcode>((_updateBarcode));
     on<BarcodeAlreadyScanned>((_barcodeAlreadyScanned));
+    on<BatchSubmitScannedItems>((_batchSubmitScannedItems));
+    on<UpdateBarcodeBatch>((_updateBarcodeBatch));
   }
 
   Future<void> _addRecord(AddRecord event, Emitter<RecordState> emit) async {
@@ -89,6 +92,43 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
     emit(RecordState(records));
   }
 
+  Future<void> _updateBarcodeBatch(
+      UpdateBarcodeBatch event, Emitter<RecordState> emit) async {
+    Map<int, Record> records = Map.from(state.records);
+    Record pendingItemsRecord = records[RecordState.pendingItemsRecordIndex]!;
+
+    late Record record;
+
+    event.batch.forEach((locationId, barcodeBatch) {
+      if (records.containsKey(locationId) == false) {
+        record = Record(
+            barcodes: {},
+            id: locationId,
+            name: barcodeBatch.locationName,
+            count: 1,
+            state: LocationStatus.done);
+
+        records[locationId] = record;
+
+        _registerNewDesignation(record);
+      } else {
+        record = records[locationId]!;
+      }
+
+      for (Barcode barcode in barcodeBatch.barcodes) {
+        pendingItemsRecord.barcodes.remove(barcode.barcode);
+        pendingItemsRecord.count = pendingItemsRecord.count - 1;
+
+        record.barcodes[barcode.barcode] = barcode;
+        record.count = pendingItemsRecord.count + 1;
+
+        _registerScannedBarcode(barcode, record);
+      }
+    });
+
+    emit(RecordState(records));
+  }
+
   void _addBarcodeToWaitingQueue(Barcode barcode) {
     WorkRequest<void> addBarcodeToQueue =
         LocalDatabaseRequestBuilder.insertBarcodeIntoWaitingQueue(
@@ -151,9 +191,18 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
     Map<int, Record> updatedRecords = Map.from(state.records);
     updatedRecords[RecordState.pendingItemsRecordIndex] = pendingItemsRecord;
 
+    LocalDatabaseRequestBuilder.deleteBarcodeFromWaitingQueue(
+        barcode: event.barcode);
 
-    LocalDatabaseRequestBuilder.deleteBarcodeFromWaitingQueue(barcode: event.barcode);
-    
     emit(RecordState(updatedRecords));
+  }
+
+  Future<void> _batchSubmitScannedItems(
+      BatchSubmitScannedItems event, Emitter<RecordState> emit) async {
+    final pendingItems = state.records[RecordState.pendingItemsRecordIndex]!;
+
+    if (pendingItems.count > 0) {
+      BarcodeCenter.instance().submitBarcodeBatch(pendingItems);
+    }
   }
 }

@@ -91,6 +91,22 @@ class BarcodeCenter implements BarcodeManger {
     _extensions.remove(bExtension);
   }
 
+  void submitBarcodeBatch(Record pendingItems){
+    Worker worker = Worker(
+        workerId: authBloc.state.workerId,
+        workerName: authBloc.state.workerName,
+        groupId: authBloc.state.groupId,
+        permissions: authBloc.state.workerDepartmentIds);
+
+    WorkRequest submitScannedBarcodeBatch =
+        RemoteServerRequestBuilder.sendScannedBarcodeBatch(
+            barcodes: pendingItems.barcodes.values.toList(),
+            worker: worker,
+            onResponse: _onBarcodeDataBatchReceived);
+
+    ServicesCenter.instance().emitWorkRequest(submitScannedBarcodeBatch);
+  }
+
   void _registerBarcode(int barcode) {
     recordsBloc.add(AddBarcode(barcode));
 
@@ -109,6 +125,39 @@ class BarcodeCenter implements BarcodeManger {
             onResponse: _onBarcodeDataReceived);
 
     ServicesCenter.instance().emitWorkRequest(submitScannedBarcode);
+  }
+
+  void _onBarcodeDataBatchReceived(List<ScannedItemData> data){
+    
+    if (data.isEmpty) return;
+    final updatedMap = <int,BarcodeBatch>{};
+
+     Record record =
+        recordsBloc.state.records[RecordState.pendingItemsRecordIndex]!;
+
+    for (ScannedItemData el in data){
+      if(el.status == BarcodeTaskStatus.alreadyScanned) continue;
+      Barcode? updatedBarcode = record.barcodes[el.barcode];
+      if (updatedBarcode == null) continue;
+
+      updatedBarcode = updatedBarcode.copyWith(
+        state: BarcodeStates.loaded,
+        name: el.itemName,
+      );
+
+      if(updatedMap[el.locationId] == null){
+        updatedMap[el.locationId] = BarcodeBatch(barcodes: [updatedBarcode], 
+        locationIndex: el.locationId, locationName: el.locationName);
+      }
+
+      else{
+        updatedMap[el.barcode]!.barcodes.add(updatedBarcode);
+      }
+
+    }
+
+    UpdateBarcodeBatch event = UpdateBarcodeBatch(updatedMap);
+    recordsBloc.add(event);
   }
 
   void _onBarcodeDataReceived(ScannedItemData data) {

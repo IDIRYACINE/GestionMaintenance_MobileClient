@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_block.dart';
+import 'package:gestion_maintenance_mobile/blocs/records/records_events.dart';
 import 'package:gestion_maintenance_mobile/blocs/records/records_state.dart';
 import 'package:gestion_maintenance_mobile/components/widgets/scanned_item.dart';
 import 'package:gestion_maintenance_mobile/core/barcodesCenter/barcodes_center.dart';
@@ -30,7 +31,26 @@ class HomePage extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: testMode ? const _MimickScanButton() : null,
+      floatingActionButton: testMode ? const _MimickScanButton() : const RetryButton(),
+    );
+  }
+}
+
+class RetryButton extends StatelessWidget {
+  const RetryButton({super.key,});
+
+  void retry(RecordsBloc bloc){
+    bloc.add(BatchSubmitScannedItems());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    final bloc = BlocProvider.of<RecordsBloc>(context);
+
+    return FloatingActionButton(
+      onPressed: () => retry(bloc),
+      child: const Icon(Icons.refresh),
     );
   }
 }

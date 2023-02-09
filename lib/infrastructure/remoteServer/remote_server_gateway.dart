@@ -7,7 +7,7 @@ import 'types.dart';
 
 class RemoteServerGateway extends ServiceHandler {
   final List<ServiceTask> _services = [];
-  final String _serverUrl = Apis.serverUrl;
+  late String _serverUrl ;
 
   RemoteServerGateway() {
     _initialiseTaskSlots();
@@ -25,7 +25,9 @@ class RemoteServerGateway extends ServiceHandler {
     });
   }
 
-  void _registerTasks() {
+  Future<void> _registerTasks() async {
+    _serverUrl = await Apis.serverUrl;
+
     _services[RemoteServerTasks.sendBarcode.index] =
         SendBarcodeTask(_serverUrl);
 
@@ -39,4 +41,5 @@ class RemoteServerGateway extends ServiceHandler {
       _services.add(emptyTask);
     }
   }
+  
 }

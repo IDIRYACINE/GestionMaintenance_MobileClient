@@ -43,6 +43,7 @@ class Barcode {
         name: json['name']);
   }
 }
+
 class Record {
   Map<int, Barcode> barcodes;
   int count;
@@ -66,4 +67,12 @@ class Record {
         state: state ?? this.state
         );
   }
+}
+
+class BarcodeBatch{
+  List<Barcode> barcodes;
+  int locationIndex;
+  String locationName;
+
+  BarcodeBatch({required this.barcodes, required this.locationIndex, required this.locationName});
 }

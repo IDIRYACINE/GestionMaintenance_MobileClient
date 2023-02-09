@@ -30,7 +30,7 @@ abstract class Repository{
 enum RemoteServerTasks{
   authenticate,
   sendBarcode,
-  sendRecord
+  sendRecord, sendBarcodeBatch
 }
 
 enum BarcodeTaskStatus{

@@ -39,9 +39,19 @@ class UpdateBarcode extends RecordEvent{
   UpdateBarcode(this.barcode, this.locationId, this.locationName);
 }
 
+class UpdateBarcodeBatch extends RecordEvent{
+  final Map<int , BarcodeBatch> batch;
+
+  UpdateBarcodeBatch(this.batch);
+}
+
 class BarcodeAlreadyScanned extends RecordEvent{
   final Barcode barcode;
 
   BarcodeAlreadyScanned(this.barcode);
+}
+
+class BatchSubmitScannedItems extends RecordEvent{
+  BatchSubmitScannedItems();
 }
 
