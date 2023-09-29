@@ -76,15 +76,15 @@ abstract class LocalDatabaseRequestBuilder {
     );
   }
 
-  static WorkRequest<Map<int, Record>> loadScannedBarcodes(
-      {required Callback<Map<int, Record>> callback}) {
+  static WorkRequest<Map<String, Record>> loadScannedBarcodes(
+      {required Callback<Map<String, Record>> callback}) {
         
     Task task = Task(LocalDatabaseTasks.loadScannedBarcodes.index,
         LocalDatabaseTasks.loadScannedBarcodes.name);
 
     Map<RequestDataKeys, dynamic> emptyKeysMap = {};
 
-    return WorkRequest<Map<int, Record>>(
+    return WorkRequest<Map<String, Record>>(
         service: AppServices.localDatabase,
         task: task,
         data: emptyKeysMap,

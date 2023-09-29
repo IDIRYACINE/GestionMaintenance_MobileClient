@@ -130,7 +130,7 @@ class BarcodeCenter implements BarcodeManger {
   void _onBarcodeDataBatchReceived(List<ScannedItemData> data){
     
     if (data.isEmpty) return;
-    final updatedMap = <int,BarcodeBatch>{};
+    final updatedMap = <String,BarcodeBatch>{};
 
      Record record =
         recordsBloc.state.records[RecordState.pendingItemsRecordIndex]!;

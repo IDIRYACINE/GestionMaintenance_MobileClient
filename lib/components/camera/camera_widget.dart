@@ -35,8 +35,7 @@ class CameraView extends StatelessWidget {
         } else {
           return Center(
             child: MaterialButton(
-              onPressed: () {
-              },
+              onPressed: () {},
               child: Text(Localisations.of(context)!.requestCameraAccess),
             ),
           );
@@ -52,18 +51,19 @@ class CameraView extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isEmpty) {
-              return Center(child: Text(Localisations.of(context)!.noCameraDetected));
+              return Center(
+                  child: Text(Localisations.of(context)!.noCameraDetected));
             }
 
             CameraDescription backCamera = snapshot.data!.first;
 
             CameraController cameraController = CameraController(
-              backCamera,
-              resolution,
-            );
+                backCamera, resolution,
+                imageFormatGroup: ImageFormatGroup.nv21);
             return _buildCameraPreview(cameraController, backCamera);
           } else {
-            return Center(child: Text(Localisations.of(context)!.noCameraDetected));
+            return Center(
+                child: Text(Localisations.of(context)!.noCameraDetected));
           }
         });
   }
@@ -190,7 +190,7 @@ class _CameraResolutionSelectorState extends State<CameraResolutionSelector> {
   }
 }
 
-
+// ignore: unused_element
 class _ActiveSquareOverlay extends StatelessWidget {
   final Size cameraPreviewSize;
   final double squareSize = 300;

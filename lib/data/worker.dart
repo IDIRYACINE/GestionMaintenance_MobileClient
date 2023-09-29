@@ -2,11 +2,11 @@
 
 class Worker{
 
-  final int workerId;
+  final String workerId;
 
   final String workerName;
 
-  final int groupId;
+  final String groupId;
 
   final List<int> permissions;
 

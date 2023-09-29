@@ -4,7 +4,7 @@ class ScannedItemData {
   final int barcode;
   final String itemName;
   final String locationName;
-  final int locationId;
+  final String locationId;
   final BarcodeTaskStatus status;
 
   ScannedItemData(this.barcode, this.itemName, this.locationName,
@@ -15,12 +15,12 @@ class ScannedItemData {
     List<BarcodeTaskStatus> status = BarcodeTaskStatus.values;
 
     try {
-      int statusIndex = json['operationResult'] ?? 0;
+      int statusIndex = json['code'] ?? 0;
 
       data = ScannedItemData(json['barcode'], json['itemName'],
           json['locationName'], json['locationId'], status[statusIndex]);
     } catch (e) {
-      data = ScannedItemData(-1, '', '', -1,status[BarcodeTaskStatus.alreadyScanned.index]);
+      data = ScannedItemData(-1, '', '', 'None',status[BarcodeTaskStatus.alreadyScanned.index]);
     }
 
     return data;
@@ -29,8 +29,8 @@ class ScannedItemData {
 
 class LoginResponse {
   final bool authenticated;
-  final int? workerId;
-  final int? groupId;
+  final String? workerId;
+  final String? groupId;
   final String? workerName;
   final List<int>? departement;
   final bool errorOccured;

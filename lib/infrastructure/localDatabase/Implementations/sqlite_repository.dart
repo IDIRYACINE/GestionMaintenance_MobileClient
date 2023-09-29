@@ -29,7 +29,7 @@ class DatabaseRepository {
       int recordState = map[ScannedBarcodeTableColumns.status.name] as int;
 
       records.add(Record(
-          id: map[DesignationTableColumns.departmentId.name] as int,
+          id: map[DesignationTableColumns.departmentId.name] as String,
           name: map[DesignationTableColumns.departmentName.name] as String?,
           count: map[DesignationTableColumns.productsCount.name] as int,
           state: _recordStates[recordState],
@@ -69,11 +69,11 @@ class DatabaseRepository {
     return designationMap;
   }
 
-  Map<int, Record> mapToRecordMap(ResultSet value) {
-    Map<int, Record> records = {};
+  Map<String, Record> mapToRecordMap(ResultSet value) {
+    Map<String, Record> records = {};
 
     for (Map<String, Object?> map in value) {
-      int recordId = map[DesignationTableColumns.departmentId.name] as int;
+      String recordId = map[DesignationTableColumns.departmentId.name] as String;
 
       records[recordId] = Record(
           id: recordId,
@@ -87,10 +87,10 @@ class DatabaseRepository {
   }
 
   void mapToBarcodeListAndAssignToDesignation(
-      ResultSet resultSet, Map<int, Record> designations) {
+      ResultSet resultSet, Map<String, Record> designations) {
     for (var element in resultSet) {
-      int departmentId =
-          element[ScannedBarcodeTableColumns.departmentId.name] as int;
+      String departmentId =
+          element[ScannedBarcodeTableColumns.departmentId.name] as String;
       Barcode barcode = mapToScannedBarcode(element);
       designations[departmentId]?.barcodes[barcode.barcode] = barcode;
     }

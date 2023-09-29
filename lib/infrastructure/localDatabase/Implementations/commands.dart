@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:gestion_maintenance_mobile/data/barcode.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/localDatabase/local_database.dart';
 import 'package:gestion_maintenance_mobile/infrastructure/workRequests/types.dart';
@@ -171,7 +173,7 @@ class LoadRecordsTask extends ServiceTask<WorkResult> {
     try {
       ResultSet result = _db.select(queryDesignations);
 
-      Map<int, Record> designations = _repository.mapToRecordMap(result);
+      Map<String, Record> designations = _repository.mapToRecordMap(result);
       return _loadDesignationsBarcodes(designations);
     } catch (e) {
       return WorkResult(workId: -1, status: OperationStatus.error, data: {});
@@ -179,7 +181,7 @@ class LoadRecordsTask extends ServiceTask<WorkResult> {
   }
 
   Future<WorkResult> _loadDesignationsBarcodes(
-      Map<int, Record> designations) async {
+      Map<String, Record> designations) async {
     ResultSet result = _db.select(queryBarcodes);
 
     _repository.mapToBarcodeListAndAssignToDesignation(result, designations);

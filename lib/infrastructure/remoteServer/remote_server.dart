@@ -12,20 +12,17 @@ class SendBarcodeTask extends ServiceTask<WorkResult> {
   @override
   Future<WorkResult> execute(requestData) async {
     int barcode = requestData[RequestDataKeys.barcode];
-    DateTime date = requestData[RequestDataKeys.scannedDate];
 
     final json = jsonEncode({
-      RequestDataKeys.barcode.name: barcode.toString(),
-      RequestDataKeys.scannedDate.name: date.toIso8601String(),
+      RequestDataKeys.barcode.name: barcode,
       RequestDataKeys.workerId.name: requestData[RequestDataKeys.workerId],
-      RequestDataKeys.workerName.name: requestData[RequestDataKeys.workerName],
-      RequestDataKeys.permissions.name:
-          requestData[RequestDataKeys.permissions],
-      RequestDataKeys.groupId.name: requestData[RequestDataKeys.groupId]
     });
 
+    // final res = '{"barcode":91080687,"code":0,"itemName":"EXTENTION HONGAR 500 M²","locationId":"53","locationName":"53"}';
+
+
     return http.post(
-      Uri.http(serverUrl, Apis.submitRecord),
+      Uri.https(serverUrl, Apis.submitRecord),
       body: json,
       headers: {
         'Content-Type': 'application/json',
@@ -36,8 +33,10 @@ class SendBarcodeTask extends ServiceTask<WorkResult> {
 
       return WorkResult(
           workId: -1, status: OperationStatus.success, data: response);
-    }).onError((error, stackTrace) => WorkResult(
-        workId: -1, status: OperationStatus.error, data: error.toString()));
+    }).onError((error, stackTrace) { 
+      return WorkResult(
+        workId: -1, status: OperationStatus.error, data: error.toString());
+        });
   }
 }
 
@@ -49,20 +48,15 @@ class SendBarcodeBatchTask extends ServiceTask<WorkResult> {
   @override
   Future<WorkResult> execute(requestData) async {
     List<int> barcodes = requestData[RequestDataKeys.barcodes];
-    DateTime date = requestData[RequestDataKeys.scannedDate];
 
     final json = jsonEncode({
-      RequestDataKeys.barcodes.name: barcodes.toString(),
-      RequestDataKeys.scannedDate.name: date.toIso8601String(),
+      RequestDataKeys.barcodes.name: barcodes,
       RequestDataKeys.workerId.name: requestData[RequestDataKeys.workerId],
-      RequestDataKeys.workerName.name: requestData[RequestDataKeys.workerName],
-      RequestDataKeys.permissions.name:
-          requestData[RequestDataKeys.permissions],
       RequestDataKeys.groupId.name: requestData[RequestDataKeys.groupId]
     });
 
     return http.post(
-      Uri.http(serverUrl, Apis.submitRecord),
+      Uri.https(serverUrl, Apis.submitRecord),
       body: json,
       headers: {
         'Content-Type': 'application/json',
@@ -89,15 +83,13 @@ class AuthenticateTask extends ServiceTask<WorkResult> {
     String username = requestData[RequestDataKeys.username];
     String password = requestData[RequestDataKeys.password];
 
-    final query = {
-      'username': username,
-      'password': password,
-    };
 
     return http.get(
-      Uri.http(serverUrl, Apis.authenticate, query),
+      Uri.https(serverUrl, Apis.authenticate),
       headers: {
         'Content-Type': 'application/json',
+        'Username' : username,
+        'Password' :password
       },
     ).then((responseJson) {
       LoginResponse response =
@@ -105,7 +97,9 @@ class AuthenticateTask extends ServiceTask<WorkResult> {
 
       return WorkResult(
           workId: -1, status: OperationStatus.success, data: response);
-    }).onError((error, stackTrace) => WorkResult(
-        workId: -1, status: OperationStatus.error, data: error.toString()));
+    }).onError((error, stackTrace)  {
+      return WorkResult(
+        workId: -1, status: OperationStatus.error, data: error.toString());
+    });
   }
 }

@@ -48,7 +48,7 @@ class Record {
   Map<int, Barcode> barcodes;
   int count;
   String? name;
-  int id;
+  String id;
   LocationStatus state;
 
   Record(
@@ -71,7 +71,7 @@ class Record {
 
 class BarcodeBatch{
   List<Barcode> barcodes;
-  int locationIndex;
+  String locationIndex;
   String locationName;
 
   BarcodeBatch({required this.barcodes, required this.locationIndex, required this.locationName});

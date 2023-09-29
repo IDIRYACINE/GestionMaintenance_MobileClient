@@ -15,7 +15,7 @@ enum ScannedItemState {
 class ScannedItem extends StatefulWidget {
   final int id;
   final int barcode;
-  final int locationId;
+  final String locationId;
 
   const ScannedItem(this.id,
       {super.key, required this.barcode, required this.locationId});
@@ -50,7 +50,7 @@ class _ScannedItemState extends State<ScannedItem> {
 }
 
 class ScannedLocation extends StatefulWidget {
-  final int id;
+  final String id;
 
   const ScannedLocation({
     super.key,

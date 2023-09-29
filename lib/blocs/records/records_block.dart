@@ -22,7 +22,7 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
   }
 
   Future<void> _addRecord(AddRecord event, Emitter<RecordState> emit) async {
-    Map<int, Record> records = Map.from(state.records);
+    Map<String, Record> records = Map.from(state.records);
 
     if (records.containsKey(event.record.id)) {
       Record record = records[event.record.id]!;
@@ -35,14 +35,14 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
 
   Future<void> _loadRecords(
       LoadRecords event, Emitter<RecordState> emit) async {
-    Map<int, Record> records = Map.from(state.records);
+    Map<String, Record> records = Map.from(state.records);
     records.addAll(event.records);
 
     emit(RecordState(records));
   }
 
   Future<void> _addBarcode(AddBarcode event, Emitter<RecordState> emit) async {
-    Map<int, Record> records = Map.from(state.records);
+    Map<String, Record> records = Map.from(state.records);
 
     Map<int, Barcode> newBarcodes =
         Map.from(records[RecordState.pendingItemsRecordIndex]!.barcodes);
@@ -62,7 +62,7 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
 
   Future<void> _updateBarcode(
       UpdateBarcode event, Emitter<RecordState> emit) async {
-    Map<int, Record> records = Map.from(state.records);
+    Map<String, Record> records = Map.from(state.records);
     late Record record;
 
     if (records.containsKey(event.locationId) == false) {
@@ -94,7 +94,7 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
 
   Future<void> _updateBarcodeBatch(
       UpdateBarcodeBatch event, Emitter<RecordState> emit) async {
-    Map<int, Record> records = Map.from(state.records);
+    Map<String, Record> records = Map.from(state.records);
     Record pendingItemsRecord = records[RecordState.pendingItemsRecordIndex]!;
 
     late Record record;
@@ -165,7 +165,7 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
 
   FutureOr<void> _loadWaitingRecord(
       LoadWaitingBarcodes event, Emitter<RecordState> emit) {
-    Map<int, Record> records = Map.from(state.records);
+    Map<String, Record> records = Map.from(state.records);
 
     Record pendingItemsRecord = records[RecordState.pendingItemsRecordIndex]!;
 
@@ -188,7 +188,7 @@ class RecordsBloc extends Bloc<RecordEvent, RecordState> {
         state.records[RecordState.pendingItemsRecordIndex]!;
     pendingItemsRecord.barcodes.remove(event.barcode.barcode);
 
-    Map<int, Record> updatedRecords = Map.from(state.records);
+    Map<String, Record> updatedRecords = Map.from(state.records);
     updatedRecords[RecordState.pendingItemsRecordIndex] = pendingItemsRecord;
 
     LocalDatabaseRequestBuilder.deleteBarcodeFromWaitingQueue(

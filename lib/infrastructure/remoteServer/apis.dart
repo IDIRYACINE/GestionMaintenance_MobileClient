@@ -8,7 +8,7 @@ abstract class Apis {
   static String _resolvedServerUrl = '';
 
   static Future<String> get serverUrl async{
-    const host = 'embag.duckdns.org';
+    const host ='enduring-alligator-629.convex.site'; //'embag.duckdns.org';
 
     if (_resolvedServerUrl != '') {
       return _resolvedServerUrl;
@@ -16,6 +16,6 @@ abstract class Apis {
 
     _resolvedServerUrl = (await InternetAddress.lookup(host)).first.address;
 
-    return _resolvedServerUrl;
+    return host;
   }
 }

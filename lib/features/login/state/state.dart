@@ -1,11 +1,11 @@
 class AuthenticaionState {
   final bool isAuthenticated;
 
-  final int workerId;
+  final String workerId;
 
   final String workerName;
 
-  final int groupId;
+  final String groupId;
 
   final List<int> workerDepartmentIds;
 
@@ -21,8 +21,8 @@ class AuthenticaionState {
 
   AuthenticaionState copyWith(
       {bool? isAuthenticated,
-      int? workerId,
-      int? groupId,
+      String? workerId,
+      String? groupId,
       String? workerName,
       bool? errorOccured,
       List<int>? workerDepartmentIds}) {
@@ -38,9 +38,9 @@ class AuthenticaionState {
   static AuthenticaionState initialState() {
     return AuthenticaionState(
         isAuthenticated: false,
-        workerId: -1,
+        workerId: "null",
         workerName: "",
         workerDepartmentIds: [],
-        groupId: -1);
+        groupId: "null");
   }
 }
