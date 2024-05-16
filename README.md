@@ -1,6 +1,6 @@
 # gestion_maintenance_mobile
     Worker app for scanning bar codes during inventory checkup
-    [Admin Website](https://github.com/IDIRYACINE/factory-inventory-platform)
+[Admin Website](https://github.com/IDIRYACINE/factory-inventory-platform)
 
 # features
  - login
