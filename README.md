@@ -1,16 +1,12 @@
 # gestion_maintenance_mobile
+    Worker app for scanning bar codes during inventory checkup
 
-A new Flutter project.
+# features
+ - login
+ - restricted scan to only designated areas
+ - barcode scan
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[Admin Website](https://github.com/IDIRYACINE/factory-inventory-platform)
+![1](./preview/1.png)
+![2](./preview/2.png)
+![3](./preview/3.png)
